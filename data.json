@@ -1,0 +1,90 @@
+{
+  "lastUpdate": "2026-09-03 16:10",
+  "note": "静态素材库：风格卡 + 问题修复速查表 + 接口默认值。不含任何密钥。",
+  "styles": [
+    {
+      "code": "A",
+      "name": "知乎原生爆款",
+      "features": [
+        "第一人称优先",
+        "开篇抛出冲击事实",
+        "多用短句，心理活动直白",
+        "每 400 字制造一个小矛盾",
+        "模拟真实知乎答主讲故事的口吻",
+        "少华丽辞藻"
+      ],
+      "genres": ["都市", "婚恋", "复仇"]
+    },
+    {
+      "code": "B",
+      "name": "双规克制文笔",
+      "features": [
+        "尽量减少大段内心独白",
+        "大量使用动作描写、环境细节侧面体现情绪",
+        "对话简短留白",
+        "冷感叙事，情绪藏在细节里，不直白呐喊",
+        "适合 BE 暗黑故事"
+      ],
+      "genres": ["暗黑BE", "悬疑", "犯罪"]
+    },
+    {
+      "code": "C",
+      "name": "高密度爽感打脸",
+      "features": [
+        "每 300 字出现一次冲突或反转",
+        "坏人行为清晰",
+        "主角反击节奏快",
+        "情绪张力拉满",
+        "节奏紧凑不灌水"
+      ],
+      "genres": ["复仇", "打脸", "重生"]
+    }
+  ],
+  "quickFixes": [
+    {
+      "symptom": "文字读起来像 AI 生成",
+      "feedback": "全文太 AI，人物没有真实感",
+      "direction": "删掉大段心理抒情，增加生活化细节和小动作，对话口语化，减少华丽修辞，增加人物矛盾选择，减少上帝视角"
+    },
+    {
+      "symptom": "人物行为不合理",
+      "feedback": "人物行为逻辑不通，很多行为没有动机支撑",
+      "direction": "回溯人物卡检查每个关键行为是否对应人物性格和过往经历，补全前置条件，删除天降反转"
+    },
+    {
+      "symptom": "前半部分拖沓",
+      "feedback": "节奏太慢，前半部分没有冲突抓不住人",
+      "direction": "冲突前置，关键信息提前抛出，拆分大段叙述，每几百字埋设悬念，删减无效铺垫"
+    },
+    {
+      "symptom": "反转太突然",
+      "feedback": "反转来得太突兀，没有铺垫",
+      "direction": "在前面埋 2-3 处隐性伏笔，反转前给暗示，反转后交代人物动机"
+    },
+    {
+      "symptom": "对话不自然",
+      "feedback": "对话生硬，不像真人说话",
+      "direction": "对话口语化，加入语气词和打断，对话中夹杂动作描写，减少信息直给"
+    }
+  ],
+  "apiDefaults": {
+    "provider": "商汤日日新 SenseNova",
+    "baseUrl": "https://token.sensenova.cn/v1",
+    "chatPath": "/chat/completions",
+    "authHeader": "Authorization: Bearer <KEY>",
+    "protocol": "OpenAI 兼容",
+    "models": [
+      { "id": "sensenova-6.8-flash-lite", "label": "SenseNova 6.8 Flash Lite（主力，1500次/5小时）", "ctx": "256K", "recommended": true },
+      { "id": "deepseek-v4-flash", "label": "DeepSeek V4 Flash（1M 上下文，500次/5小时）", "ctx": "1M" },
+      { "id": "glm-5.2", "label": "GLM 5.2（500次/5小时）", "ctx": "1M" }
+    ],
+    "maxTokensMax": 65536,
+    "corsNote": "该接口对实际 POST 返回 Access-Control-Allow-Origin，但预检 OPTIONS 返回 404，浏览器会拦截带 Authorization 的请求。手机端直连需将 Base URL 指向你自建的 CORS 转发服务；请勿使用公共 CORS 代理，以免密钥泄露。"
+  },
+  "versionRules": {
+    "minor": "小修改（局部润色、个别段落重写）→ 小数点位 +1，如 V1.0 → V1.1",
+    "major": "大修改（方案调整、风格切换、全文重写）→ 整数位 +1，如 V1.1 → V2.0",
+    "states": ["草稿", "在用", "归档废弃"],
+    "productTypes": ["大纲", "人设", "梗概", "完整正文", "修改稿"]
+  }
+}
