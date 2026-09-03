@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>小说创作工作台</title>
+<title>知乎短篇爆款小说工作台</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#7c3aed">
 <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%3E%3Crect width=%27192%27 height=%27192%27 rx=%2736%27 fill=%27%237c3aed%27/%3E%3Ctext x=%2796%27 y=%27124%27 font-size=%2796%27 text-anchor=%27middle%27%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E'>
-<link rel="manifest" href='data:application/manifest+json,{"name":"小说创作工作台","short_name":"小说台","start_url":"index.html","scope":"./","display":"standalone","background_color":"%23ffffff","theme_color":"%237c3aed","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%3E%3Crect width=%27192%27 height=%27192%27 rx=%2736%27 fill=%27%237c3aed%27/%3E%3Ctext x=%2796%27 y=%27124%27 font-size=%2796%27 text-anchor=%27middle%27%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
+<link rel="manifest" href='data:application/manifest+json,{"name":"知乎短篇爆款小说工作台","short_name":"小说台","start_url":"index.html","scope":"./","display":"standalone","background_color":"%23ffffff","theme_color":"%237c3aed","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%3E%3Crect width=%27192%27 height=%27192%27 rx=%2736%27 fill=%27%237c3aed%27/%3E%3Ctext x=%2796%27 y=%27124%27 font-size=%2796%27 text-anchor=%27middle%27%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
 <style>
 :root{--p:#7c3aed;--pd:#6d28d9;--bg:#f5f4f8;--txt:#1f2937;--sub:#6b7280;--line:#e9e6f0;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--chip:#f3e8ff}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -23,13 +23,15 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Pi
 #perr{margin-top:12px;font-size:13px;color:#ffe4e6;min-height:18px;font-weight:600}
 .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 .app.hide{display:none}
-header{background:linear-gradient(135deg,var(--p),#4f46e5);color:#fff;padding:13px 16px}
-header h1{margin:0;font-size:17px}
-.hmeta{font-size:11px;opacity:.9;margin-top:4px}
-main{flex:1;padding:12px;padding-bottom:78px}
+header{background:linear-gradient(135deg,var(--p),#4f46e5);color:#fff;padding:11px 14px}
+header h1{margin:0;font-size:16px}
+.hmeta{font-size:11px;opacity:.92;margin-top:3px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hmeta a{color:#fff;text-decoration:underline;font-size:11px;cursor:pointer;opacity:.95}
+main{flex:1;padding:12px;padding-bottom:84px}
 .sec{display:none}.sec.on{display:block}
 .card,.blk{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:11px}
 .blk h3{margin:0 0 8px;font-size:14px}
+.blk h3 .sub{font-size:11px;color:var(--sub);font-weight:400}
 .pname{font-size:15px;font-weight:700;margin:2px 0}
 .btn{font-size:12px;padding:7px 11px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--txt);cursor:pointer}
 .btn.p{background:var(--p);color:#fff;border-color:var(--p)}
@@ -47,73 +49,85 @@ main{flex:1;padding:12px;padding-bottom:78px}
 input[type=text],input[type=password],input[type=number],select,textarea{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit;background:#fff;color:var(--txt)}
 textarea{min-height:88px;resize:vertical;line-height:1.6}
 label{font-size:11px;color:var(--sub);display:block;margin:9px 0 3px}
-.steps{display:flex;gap:4px;margin-bottom:11px}
-.steps span{flex:1;text-align:center;font-size:10px;padding:6px 2px;border-radius:8px;background:#f1f5f9;color:var(--sub);cursor:pointer}
-.steps span.on{background:var(--p);color:#fff;font-weight:700}
-.steps span.done{background:#dcfce7;color:var(--ok)}
-.ev{background:#faf9fc;border-left:3px solid var(--p);padding:9px 11px;border-radius:6px;font-size:12.5px;white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto}
-.warnbox{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:9px;font-size:11.5px;color:#92400e;line-height:1.6;margin:8px 0}
 .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
 nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:40}
 nav a{flex:1;text-align:center;padding:7px 0 5px;font-size:10px;color:var(--sub);cursor:pointer}
 nav a .ic{font-size:18px;display:block;line-height:1}
 nav a.on{color:var(--p);font-weight:700}
 .tag{display:inline-block;font-size:11px;background:var(--chip);color:var(--pd);padding:3px 8px;border-radius:6px;margin:2px;cursor:pointer}
+.tag:hover{filter:brightness(.96)}
 .mask{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:60;align-items:flex-end;justify-content:center}
 .mask.on{display:flex}
 .sheet{background:#fff;width:100%;max-width:480px;max-height:86vh;overflow-y:auto;border-radius:18px 18px 0 0;padding:16px}
+.warnbox{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:9px;font-size:11.5px;color:#92400e;line-height:1.6;margin:8px 0}
+.ev{background:#faf9fc;border-left:3px solid var(--p);padding:9px 11px;border-radius:6px;font-size:12.5px;white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto}
+.subtabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px}
+.subtabs button{flex:0 0 auto;font-size:11px;padding:6px 10px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--sub);cursor:pointer;white-space:nowrap}
+.subtabs button.on{background:var(--p);color:#fff;border-color:var(--p);font-weight:700}
+.genre{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.genre button{font-size:11px;padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--sub);cursor:pointer}
+.genre button.on{background:var(--chip);color:var(--pd);border-color:var(--p);font-weight:700}
+.mtbl{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:6px}
+.mtbl th,.mtbl td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+.mtbl th{background:#faf9fc;color:var(--sub);font-weight:600}
+.mtbl tr th:first-child{width:64px}
+.mcard{border:1px solid var(--line);border-radius:11px;padding:10px;margin-bottom:9px;background:#fff}
+.mcard .mt{font-weight:700;font-size:13px;margin-bottom:4px}
+.mcard .mf{font-size:12px;color:var(--txt);line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.mcard .meta{font-size:10.5px;color:var(--sub);margin-top:5px}
+.promptbox{background:#0f172a;color:#e2e8f0;border-radius:9px;padding:10px;font-size:11.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.prow b{font-size:12.5px}
 </style>
 </head>
 <body>
 
 <div id="lock"><div class="lbox">
-<div class="ico">🔒</div><h2>小说创作工作台</h2><p>请输入访问密码</p>
+<div class="ico">🔒</div><h2>知乎短篇爆款小说工作台</h2><p>请输入访问密码</p>
 <input type="password" id="pw" placeholder="访问密码" onkeydown="if(event.key==='Enter')doUnlock()">
 <button onclick="doUnlock()">解 锁</button><div id="perr"></div>
 </div></div>
 
 <div class="app hide" id="app">
-<header><h1>📖 小说创作工作台</h1><div class="hmeta" id="hmeta">加载中…</div></header>
+<header><h1>📖 知乎短篇爆款小说工作台</h1>
+<div class="hmeta"><span id="hmeta">加载中…</span><a onclick="switchProj()">切换项目</a></div></header>
 <main>
-<section class="sec on" id="s-proj">
+
+<!-- ① 脑洞策划 -->
+<section class="sec on" id="s-brain">
   <div class="acts" style="margin:0 0 11px"><button class="btn p" onclick="newProject()">＋ 新建小说</button>
   <button class="btn" onclick="exportAll()">导出备份</button>
   <button class="btn" onclick="document.getElementById('impf').click()">导入备份</button></div>
   <input type="file" id="impf" accept=".json" style="display:none" onchange="importAll(this)">
   <div id="plist"></div>
+  <div id="brainBody"></div>
 </section>
-<section class="sec" id="s-create"><div class="steps" id="steps"></div><div id="cbody"></div></section>
-<section class="sec" id="s-doc"><div id="dbody"></div></section>
+
+<!-- ② 正文生成 -->
+<section class="sec" id="s-body"><div id="bodyBody"></div></section>
+
+<!-- ③ 素材库 -->
 <section class="sec" id="s-mat">
-  <div class="blk"><h3>🎨 文笔风格卡</h3><div id="mstyles"></div></div>
-  <div class="blk"><h3>🔧 问题修复速查表</h3><div class="sm">点「用这个反馈」可直接跳到诊断页</div><div id="mfix" style="margin-top:8px"></div></div>
-  <div class="blk"><h3>💡 脑洞池</h3><input type="text" id="ideain" placeholder="随手记一个脑洞…">
-  <div class="acts"><button class="btn p" onclick="addIdea()">存入脑洞池</button></div>
-  <div id="midea" style="margin-top:8px"></div></div>
+  <div class="subtabs" id="matTabs"></div>
+  <div id="matBody"></div>
 </section>
-<section class="sec" id="s-set">
-  <div class="blk"><h3>🤖 AI 接口（模式 B，可选）</h3>
-    <div class="warnbox" id="corswarn"></div>
-    <label>Base URL</label><input type="text" id="aurl" placeholder="https://token.sensenova.cn/v1">
-    <label>API Key（仅存本机，绝不上传）</label><input type="password" id="akey" placeholder="sk-…">
-    <label>模型 ID（区分大小写，全小写）</label><select id="amodel"></select>
-    <label>最大输出 tokens</label><input type="number" id="amax" value="32768" min="512" max="65536">
-    <div class="acts"><button class="btn p" onclick="saveAI()">保存配置</button>
-    <button class="btn" onclick="testAI()">测试连接</button>
-    <button class="btn dg" onclick="clearKey()">清除 Key</button></div>
-    <div id="aitest" class="sm" style="margin-top:8px"></div>
-  </div>
-  <div class="blk"><h3>🔒 安全</h3><label>修改访问密码</label><input type="text" id="npw" placeholder="新密码">
-    <div class="acts"><button class="btn" onclick="setPwd()">保存密码</button>
-    <button class="btn dg" onclick="lockNow()">立即锁定</button></div></div>
-  <div class="blk"><h3>💾 存储</h3><div id="stor"></div></div>
-</section>
+
+<!-- ④ 诊断优化 -->
+<section class="sec" id="s-diag"><div id="diagBody"></div></section>
+
+<!-- ⑤ 版本管理 -->
+<section class="sec" id="s-ver"><div id="verBody"></div></section>
+
+<!-- ⑥ 设置 -->
+<section class="sec" id="s-set"><div id="setBody"></div></section>
+
 </main>
 <nav>
-<a class="on" data-t="proj"><span class="ic">📖</span>项目</a>
-<a data-t="create"><span class="ic">✍️</span>创作</a>
-<a data-t="doc"><span class="ic">📄</span>稿件</a>
+<a class="on" data-t="brain"><span class="ic">💡</span>脑洞</a>
+<a data-t="body"><span class="ic">✍️</span>正文</a>
 <a data-t="mat"><span class="ic">🗂</span>素材</a>
+<a data-t="diag"><span class="ic">🔧</span>诊断</a>
+<a data-t="ver"><span class="ic">📚</span>版本</a>
 <a data-t="set"><span class="ic">⚙️</span>设置</a>
 </nav>
 </div>
@@ -121,8 +135,8 @@ nav a.on{color:var(--p);font-weight:700}
 
 <script>
 const PWD_KEY="novel_pwd",UNLOCK="novel_studio_unlocked",PWD_DEF="123456",AI_KEY="novel_ai_cfg";
-let DATA={styles:[],quickFixes:[],apiDefaults:{}};
-let projects=[],curId=null,step=0,materials={ideas:[]},db=null;
+let DATA={styles:[],quickFixes:[],apiDefaults:{},matSeeds:null};
+let projects=[],curId=null,materials={ideas:[],favs:[]},db=null,curMat="bao";
 
 /* ===== IndexedDB ===== */
 function idb(){return new Promise((res,rej)=>{if(db)return res(db);
@@ -166,25 +180,30 @@ async function boot(){
  try{const r=await fetch("./data.json?t="+Date.now(),{cache:"no-store"});
   if(r.ok){DATA=await r.json();localStorage.setItem("novel_data_cache",JSON.stringify(DATA));}}
  catch(e){try{const c=localStorage.getItem("novel_data_cache");if(c)DATA=JSON.parse(c);}catch(e2){}}
- renderStatic();
+ if(!DATA.matSeeds)DATA.matSeeds=SEED;
  projects=await getAll();
- materials=await getMeta("materials",{ideas:[]});
+ const m=await getMeta("materials",{ideas:[],favs:[]});materials={ideas:m.ideas||[],favs:m.favs||[]};
  const last=await getMeta("lastId",null);
  if(last&&projects.find(p=>p.id===last))curId=last;
  const cfg=JSON.parse(localStorage.getItem(AI_KEY)||"null");
  if(cfg){aurl.value=cfg.url||"";amodel.value=cfg.model||"";amax.value=cfg.max||32768;}
- renderProjects();renderCreate();renderDoc();renderMat();renderStor();updMeta();
+ renderAll();
 }
-function updMeta(){document.getElementById("hmeta").textContent="项目 "+projects.length+" 个"
- +(cp()?" · 当前："+cp().title:"")+" · 素材 "+(DATA.lastUpdate||"—");}
+function renderAll(){renderProjects();renderBrain();renderBody();renderMat();renderDiag();renderVer();renderSet();updMeta();}
+function updMeta(){const p=cp();
+ document.getElementById("hmeta").textContent=(projects.length?("项目 "+projects.length+" · "):"")+(p?("当前："+p.title):"未选项目");}
 
-/* ===== Tab ===== */
+/* ===== Tab 状态机（修复栏目点击无法切换） ===== */
 document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>switchTab(a.dataset.t));
-function switchTab(t){document.querySelectorAll("nav a").forEach(x=>x.classList.toggle("on",x.dataset.t===t));
+function switchTab(t){
+ document.querySelectorAll("nav a").forEach(x=>x.classList.toggle("on",x.dataset.t===t));
  document.querySelectorAll(".sec").forEach(s=>s.classList.remove("on"));
- document.getElementById("s-"+t).classList.add("on");
- if(t==="doc")renderDoc();if(t==="mat")renderMat();if(t==="set")renderStor();
- if(t==="create")renderCreate();if(t==="proj")renderProjects();}
+ const sec=document.getElementById("s-"+t);if(sec)sec.classList.add("on");
+ if(t==="brain")renderBrain();else if(t==="body")renderBody();else if(t==="mat")renderMat();
+ else if(t==="diag")renderDiag();else if(t==="ver")renderVer();else if(t==="set")renderSet();
+ window.scrollTo(0,0);
+}
+function switchProj(){switchTab("brain");toast("在「脑洞」里新建或选择项目");}
 
 /* ===== 项目 ===== */
 function newProject(){
@@ -192,13 +211,12 @@ function newProject(){
   createdAt:now(),updatedAt:now(),idea:{raw:"",assess:null,final:""},outlines:[],selOutline:null,
   mss:[],diags:[],versions:[],constraints:[]};
  projects.unshift(p);curId=p.id;save(p);setMeta("lastId",p.id);
- renderProjects();switchTab("create");toast("已创建，先填写脑洞");}
-function openProj(id){curId=id;setMeta("lastId",id);switchTab("create");updMeta();}
+ renderProjects();switchTab("brain");toast("已创建，先填写脑洞");}
+function openProj(id){curId=id;setMeta("lastId",id);renderAll();switchTab("brain");updMeta();}
 function renProj(id){const p=projects.find(x=>x.id===id);const t=prompt("标题",p.title);
  if(t){p.title=t;save(p);renderProjects();updMeta();}}
 function delProj(id){if(!confirm("删除这部小说？所有稿件与版本都会消失"))return;
- projects=projects.filter(x=>x.id!==id);del(id);if(curId===id)curId=null;
- renderProjects();renderCreate();updMeta();}
+ projects=projects.filter(x=>x.id!==id);del(id);if(curId===id)curId=null;renderAll();}
 function renderProjects(){const box=document.getElementById("plist");
  if(!projects.length){box.innerHTML='<div class="empty">还没有小说，点上面「＋ 新建小说」开始</div>';return;}
  box.innerHTML=projects.map(p=>{const st=p.status==="在用"?"ok":p.status==="归档废弃"?"gray":"warn";
@@ -208,73 +226,187 @@ function renderProjects(){const box=document.getElementById("plist");
   +'<span class="b '+st+'">'+p.status+'</span></div>'
   +'<div class="sm" style="margin-top:6px">大纲 '+p.outlines.length+' · 正文 '+p.mss.length+' · 版本 '+p.versions.length+' · '+wc+' 字</div>'
   +'<div class="sm">更新 '+(p.updatedAt||"")+'</div><div class="acts">'
-  +'<button class="btn s" onclick="event.stopPropagation();openProj(\''+p.id+'\')">进入创作</button>'
+  +'<button class="btn s" onclick="event.stopPropagation();openProj(\''+p.id+'\')">进入</button>'
   +'<button class="btn s" onclick="event.stopPropagation();renProj(\''+p.id+'\')">重命名</button>'
   +'<button class="btn dg" onclick="event.stopPropagation();delProj(\''+p.id+'\')">删除</button></div></div>';}).join("");}
 
-/* ===== 提示词模板 ===== */
+/* ===== 提示词模板（全部可直接复制粘贴给 WorkBuddy 执行） ===== */
 function fmtOutline(o){return "# 方案"+o.code+" 【"+(o.name||"")+"】\n\n## 核心看点\n"+(o.points||[]).map(x=>"- "+x).join("\n")
  +"\n\n## 完整故事大纲\n"+(o.outline||"")+"\n\n## 人物设定卡\n"+(o.chars||"")
  +"\n\n## 故事梗概\n"+(o.synopsis||"")+"\n\n## 开篇钩子\n"+(o.hook||"");}
 function cons(p){return (p.constraints&&p.constraints.length)?"\n\n【本项目已积累的规避约束，必须遵守】\n"+p.constraints.map(c=>"- "+c).join("\n"):"";}
 const T={
-0:p=>"你是一个知乎盐选短篇小说创作工作台。请先执行「脑洞质量评估」，不要跳过直接生成方案。\n\n【我的原始脑洞】\n"+(p.idea.raw||"")
- +"\n\n【题材】"+p.genre+"\n【目标字数】"+p.target+"\n\n请按以下维度评估：\n1. 脑洞吸引力评分（0-10 分）\n2. 优势点：哪些元素适配知乎爆款流量逻辑\n3. 风险短板：哪些地方容易写崩（逻辑坑、俗套、难落地、容易 AI 化）\n4. 优化建议：给出 2 条脑洞改良方向，让冲突更强、更适合知乎短篇\n\n评估完成后，询问我是否根据建议微调脑洞。",
-1:p=>"你是知乎盐选短篇小说专业策划，熟悉知乎短篇爆款底层逻辑，拒绝 AI 悬浮套路，优先制造强冲突、强钩子。\n\n【我的原始脑洞】\n"+(p.idea.final||p.idea.raw||"")
- +"\n【期望结局】"+p.ending+"\n【题材】"+p.genre+"\n【目标字数】"+p.target
- +"\n\n【强制规则】\n1. 输出 2 套完全差异化的故事方案。方案 A 偏向强冲突爽向，方案 B 偏向氛围感暗黑现实向，两套故事走向不得重复。\n2. 每套方案严格按以下结构输出，不加冗余废话：\n\n# 方案X 【方案名称】\n\n## 核心看点（3 条，回答读者为什么愿意点开追读）\n- 看点1\n- 看点2\n- 看点3\n\n## 完整故事大纲（分幕结构，关键反转点明确标出）\n1. 开端：\n2. 第一次反转：\n3. 第二次转折：\n4. 高潮：\n5. 结局：\n\n## 人物设定卡\n主角：姓名 | 性格 | 动机 | 软肋 | 隐藏秘密\n关键配角1：姓名 | 性格 | 立场 | 目的\n关键配角2：姓名 | 性格 | 立场 | 目的\n\n## 故事梗概（300 字以内，知乎简介风格，带悬念）\n\n## 开篇钩子（200 字内，知乎提问式或第一人称暴击开篇，直接抓住读者）\n\n3. 人物行为必须有动机支撑，所有反转不能凭空天降。\n4. 输出完成后，询问我选择方案 A 还是方案 B。"+cons(p),
-2:(p,s)=>{const d={A:"A — 知乎原生爆款：第一人称优先；开篇抛出冲击事实；多用短句，心理活动直白；每 400 字制造一个小矛盾；模拟真实知乎答主讲故事的口吻；少华丽辞藻。",
- B:"B — 双规克制文笔：尽量减少大段内心独白；大量使用动作描写、环境细节侧面体现情绪；对话简短留白；冷感叙事，情绪藏在细节里，不直白呐喊；适合 BE 暗黑故事。",
- C:"C — 高密度爽感打脸：每 300 字出现一次冲突或反转；坏人行为清晰；主角反击节奏快；情绪张力拉满；节奏紧凑不灌水。"}[s];
+/* 提示词0 总控入口 */
+0:`【角色】知乎盐选短篇小说工作台总控Agent
+【Tab状态管理规则，强制遵守】
+当前激活Tab：{{激活Tab名称：脑洞策划 / 正文生成 / 素材库 / 诊断优化 / 版本管理 / 设置}}
+1. 严格按照激活Tab输出对应模块内容；用户点击切换Tab，立刻切换模块，禁止混杂其他Tab输出内容，解决栏目点击无法切换的问题。
+2. 不允许跨Tab输出无关产物；用户指令明确指向某Tab，自动更新激活Tab。
+3. 全局持久保存：全部脑洞、方案、稿件、版本记录、素材收藏，维护完整上下文，不丢失历史数据。
+4. 全局约束：拒绝AI悬浮套路，人物行为必须有动机；禁止廉价抒情套话；手机阅读友好，短段落。
+
+【全部Tab能力说明】
+1.脑洞策划：脑洞评估、生成2套差异化故事方案（大纲/人设/梗概/开篇钩子）
+2.正文生成：选定方案，三选一风格输出完整短篇，附带稿件自评
+3.素材库：爆款文档拆解、脑洞灵感池、风格样本库、爆点标签库、开篇钩子库；支持筛选题材、收藏、一键复用素材到脑洞策划
+4.诊断优化：接收编辑反馈，定位问题点、输出落地优化策略、局部/全文重写、输出同类问题规避指令
+5.版本管理：新建版本、保存版本记录、按版本号回退完整产物、归档废弃稿件，输出markdown版本记录表
+6.设置：自定义参数、导出全部工作产物、清空缓存
+
+用户接下来指令：{{用户输入}}`,
+/* 提示词6 脑洞质量评估（前置） */
+assess:p=>`【知乎短篇脑洞评估】
+用户脑洞：${(p.idea.final||p.idea.raw||"")}
+题材：${p.genre}
+
+输出：
+1.脑洞吸引力评分（0-10分）
+2.优势点：哪些元素适配知乎爆款流量
+3.风险短板：哪些地方容易写崩（逻辑坑、俗套、难落地、容易AI化）
+4.优化建议：给2条脑洞改良方向，可以让故事冲突更强，更适合知乎短篇。`,
+/* 提示词1 脑洞解析与多方案大纲生成 */
+outline:p=>`【角色】知乎盐选短篇小说专业策划，熟悉知乎短篇爆款底层逻辑，拒绝AI悬浮套路，优先制造强冲突、强钩子。
+【输入】用户原始脑洞：${(p.idea.final||p.idea.raw||"")}；期望结局：${p.ending}；题材：${p.genre}；目标字数：${p.target}
+
+【强制规则】
+1. 输出2套完全差异化的故事方案，方案A偏向强冲突爽向，方案B偏向氛围感暗黑现实向，两套不要故事走向重复。
+2. 每套方案严格输出下面结构，不要冗余废话：
+# 方案X 【方案名称】
+## 核心看点（3条，回答读者为什么愿意点开追读）
+-
+## 完整故事大纲（分幕：开端-转折1-转折2-高潮-结局，关键反转点明确标出）
+1.开端：
+2.第一次反转：
+3.第二次转折：
+4.高潮：
+5.结局：
+
+## 人物设定卡
+主角：姓名｜性格｜动机｜软肋｜隐藏秘密
+关键配角1：姓名｜性格｜立场｜目的
+关键配角2：姓名｜性格｜立场｜目的
+
+## 故事梗概（300字以内，知乎简介风格，带悬念）
+
+## 开篇钩子（200字内，知乎提问式/第一人称暴击开篇，直接抓住读者）
+
+3.禁止过度狗血悬浮，人物行为必须有动机支撑；所有反转不能凭空天降。
+4.输出完成后，询问用户选择方案A还是方案B，或者需要调整脑洞重新生成，也可以询问是否前往素材库调取灵感。${cons(p)}`,
+/* 提示词2 多风格正文生成 */
+body:(p,s)=>{const d={A:"A知乎原生爆款：第一人称优先；开篇抛出冲击事实；多用短句；心理活动直白；每400字制造小矛盾；模拟真实知乎答主讲故事口吻；少华丽辞藻。",
+ B:"B双规克制文笔：尽量减少大段内心独白；大量使用动作描写、环境细节侧面体现情绪；对话简短留白；冷感叙事；情绪藏在细节，不直白呐喊；适合BE暗黑故事。",
+ C:"C高密度爽感打脸：每300字出现一次冲突或反转；坏人行为清晰；主角反击节奏快；情绪张力拉满；节奏紧凑不灌水。"}[s];
  const o=p.outlines.find(x=>x.code===p.selOutline);
- return "你是知乎短篇小说写手，支持切换文笔风格，杜绝 AI 书面腔，对话贴合人物身份。\n\n【选定故事方案】\n"+(o?fmtOutline(o):"（未选定方案）")
- +"\n\n【目标总字数】"+p.target+" 字\n【选择文笔风格】"+d
- +"\n\n【写作硬性要求】\n1. 不平铺直叙，必须埋伏笔；所有人物行为符合人设卡。\n2. 禁止模板化 AI 套话，拒绝「我的心猛地一痛」这类廉价抒情。\n3. 分段细碎，适配手机阅读，大段长句必须拆分。\n4. 输出完整小说正文。\n5. 完成后输出简短自评：优点、潜在风险点（逻辑薄弱处、容易产生 AI 感的地方）。"+cons(p);},
-3:(p,fb)=>{const o=p.outlines.find(x=>x.code===p.selOutline);
- return "你是小说诊断优化专家，专门修复 AI 生成短篇的常见问题，不做无意义润色，只做针对性修复。\n\n【原始稿件】\n"+(p.mss.length?p.mss[p.mss.length-1].text:"（暂无稿件）")
- +"\n\n【原始故事方案】\n"+(o?fmtOutline(o):"（未选定）")+"\n\n【收到反馈】\n"+fb
- +"\n\n【工作步骤】\n1. 诊断拆解：逐条列出稿件现存问题，定位具体位置，不笼统评价。\n2. 输出优化策略：可落地修改手段，分点写清楚改哪里、为什么改。\n3. 输出修改后的版本（局部重写或全文重写）。\n4. 附加约束指令：如果后续再出现同类问题，给出下一轮生成的规避约束。\n\n禁止只美化文字，必须修复底层逻辑、动机、节奏问题。";},
-4:p=>"请为当前小说生成版本记录，格式如下：\n\n版本号：V"+(p.versions.length?p.versions[p.versions.length-1].v:"1.0")
- +"\n创建时间："+now()+"\n原始脑洞："+(p.idea.final||p.idea.raw||"")
- +"\n选用方案："+(p.selOutline||"未选定")+"\n选用文笔风格："+(p.mss.length?p.mss[p.mss.length-1].style:"—")
- +"\n反馈记录：（本轮反馈）\n修改说明：（本轮改动点）\n产物类型：【大纲 / 人设 / 梗概 / 完整正文 / 修改稿】\n状态：【草稿 / 在用 / 归档废弃】"};
+ return `【角色】知乎短篇小说写手，支持切换文笔风格，杜绝AI书面腔，对话贴合人物身份。
+已选定故事方案：\n${o?fmtOutline(o):"（未选定方案）"}
+目标总字数：${p.target}
+选择文笔风格：${d}
+
+【写作硬性要求】
+1. 不要平铺直叙，必须埋伏笔；所有人物行为符合前面人设卡。
+2. 禁止模板化AI套话，拒绝"我的心猛地一痛"这类廉价抒情。
+3. 分段细碎，适配手机阅读，大段长句必须拆分。
+4. 输出完整小说正文，完成后输出简短自评：优点、潜在风险点（逻辑薄弱地方、容易AI感的地方）。${cons(p)}`;},
+/* 提示词3 素材库生成&检索 */
+mat:(genre,act)=>`【角色】知乎短篇爆款素材库解析专家
+操作指令：${act||"刷新爆款库"}
+${genre?("筛选题材："+genre+"\n"):""}
+【素材库输出字段规范】
+1.爆款文档库单条：标题｜题材｜核心爆点｜开篇钩子摘抄｜付费卡点位置｜反转设计｜✅可借鉴点｜⚠️避坑提醒（禁止直接复制完整原文，只拆解框架、钩子、爆点）
+2.脑洞灵感池单条：脑洞简述｜题材｜冲突内核｜适合结局BE/HE｜风险短板｜改良方向
+3.风格样本库：风格名称+样段文本+硬性写作约束清单
+4.爆点标签库：按【人物反差｜社会情绪｜剧情反转】分类输出标签，支持多标签组合
+5.开篇钩子库：分4类（提问式/暴击事实/场景细节/反转前置），单条≤200字
+交互规则：用户选中素材，提示"已选中素材，是否一键导入脑洞策划模块生成故事方案？"`,
+/* 提示词4 反馈驱动诊断&优化修复 */
+diag:(p,fb)=>{const o=p.outlines.find(x=>x.code===p.selOutline);
+ return `【角色】小说诊断优化专家，专门修复AI生成短篇常见问题，不做无意义润色，针对性修复问题。
+原始稿件：${p.mss.length?p.mss[p.mss.length-1].text:"（暂无稿件）"}
+原始故事方案：${o?fmtOutline(o):"（未选定）"}
+收到反馈：${fb}
+
+【工作步骤】
+1.诊断拆解：逐条列出稿件现存问题，定位具体位置，不要笼统评价。
+2.输出优化策略：可落地修改手段，分点写清楚改哪里、为什么改。
+3.输出修改后的版本（可选择局部重写/全文重写）。
+4.附加：如果后续再出现同类问题，规避提示，给到给下一轮生成的约束指令。
+
+禁止只美化文字，必须修复底层逻辑、动机、节奏问题。`;},
+/* 提示词5 版本管理、保存、回退、归档 */
+ver:p=>`【版本记录生成器】
+本次版本信息：
+版本号：V${(p.versions.length?p.versions[p.versions.length-1].v:"1.0")}
+创建时间：${now()}
+原始脑洞：${(p.idea.final||p.idea.raw||"")}
+选用方案：${(p.selOutline||"未选定")}
+选用文笔风格：${(p.mss.length?p.mss[p.mss.length-1].style:"—")}
+编辑/自我反馈记录：（本轮反馈）
+修改说明：（本次改动点）
+产物：【大纲｜人设｜梗概｜完整正文｜修改稿】
+状态：【草稿｜在用｜归档废弃】
+
+执行动作：{{新建版本 / 根据版本号回退Vxx / 归档版本Vxx / 查看全部版本列表}}
+
+规则：
+1.新建版本：复制上一版基础信息，更新版本号、修改说明、产物，绝不覆盖旧版本记录。
+2.回退：根据指定版本号，完整还原该版本全部输出产物（脑洞、大纲、人设、正文）。
+3.归档：标记状态为归档废弃，完整保留全部记录，不再作为新创作的基础。
+4.全部版本输出markdown表格，表格后附带每个版本完整内容，方便复制保存。`,
+/* 高频反馈速查（内置诊断） */
+fixnote:()=>`高频反馈速查——
+1.反馈：写出来太AI → 删大段心理抒情；加生活化小动作；对话口语化；削减华丽修辞；增加两难抉择；减少上帝视角，多用主角感官。
+2.反馈：逻辑不通、动机悬浮 → 回溯人物卡校验每处关键行为；补前置背景；删天降反转；重构不合逻辑桥段。
+3.反馈：节奏平淡抓不住人 → 冲突前置；提前抛关键悬念；拆分大段叙述；删无效铺垫；每几百字埋小冲突。
+4.反馈：反转突兀 → 前置埋2-3处隐性伏笔；反转前给暗示；反转后解释动机。`
+};
 
 /* ===== 弹层 ===== */
 function showSheet(title,html){document.getElementById("sheet").innerHTML='<h3 style="margin:0 0 10px;font-size:16px">'+esc(title)+'</h3>'+html;
  document.getElementById("mask").classList.add("on");}
 function closeSheet(){document.getElementById("mask").classList.remove("on");}
+function copyText(id){const t=document.getElementById(id);if(!t)return;
+ t.style.display="block";t.select();document.execCommand("copy");t.style.display="none";toast("已复制");}
+function copyStr(s){const ta=document.createElement("textarea");ta.value=s;ta.style.position="fixed";ta.style.opacity="0";
+ document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);toast("提示词已复制，去 WorkBuddy 粘贴执行");}
 
-/* ===== 创作五步 ===== */
-const STEPS=["① 脑洞评估","② 方案发散","③ 正文生成","④ 诊断优化","⑤ 版本管理"];
-function gotoStep(i){step=i;renderCreate();}
-function pb(id){return '<button class="btn g" onclick="copyPrompt(\''+id+'\')">📋 复制提示词</button>';}
-function renderCreate(){
- document.getElementById("steps").innerHTML=STEPS.map((s,i)=>'<span class="'+(i===step?"on":(i<step?"done":""))+'" onclick="gotoStep('+i+')">'+s+'</span>').join("");
- const box=document.getElementById("cbody");
- if(!cp()){box.innerHTML='<div class="empty">请先在「项目」里新建或选择一部小说</div>';return;}
- box.innerHTML=[rStep0,rStep1,rStep2,rStep3,rStep4][step]();
-}
-function rStep0(){const p=cp();
- let h='<div class="blk"><h3>① 脑洞评估</h3>'
- +'<label>题材</label><input type="text" id="f_genre" value="'+esc(p.genre)+'">'
- +'<label>目标字数</label><input type="number" id="f_target" value="'+p.target+'">'
- +'<label>期望结局</label><select id="f_ending"><option'+(p.ending==="HE"?" selected":"")+'>HE</option><option'+(p.ending==="BE"?" selected":"")+'>BE</option><option'+(p.ending==="开放式"?" selected":"")+'>开放式</option></select>'
- +'<label>原始脑洞</label><textarea id="f_raw" placeholder="把你的脑洞写在这里…">'+esc(p.idea.raw||"")+'</textarea>'
- +'<div class="acts"><button class="btn p" onclick="saveStep0()">保存</button>'+pb("pt0")
- +'<button class="btn s" onclick="gen(0)">🤖 直接生成</button>'
- +'<button class="btn s" onclick="pasteBox(\'assess\')">📥 粘贴结果</button></div>'
- +'<textarea id="pt0" style="display:none">'+esc(T[0](p))+'</textarea></div>';
+
+/* ===== 提示词块（复制粘贴） ===== */
+function promptBlock(id,label,pstr){
+ return '<div class="prow"><b>'+esc(label)+'</b><button class="btn p" onclick="copyPrompt(\''+id+'\')">📋 复制提示词</button></div>'
+  +'<textarea id="'+id+'" class="promptbox" style="display:none;margin-top:5px">'+esc(pstr)+'</textarea>';}
+function copyPrompt(id){const t=document.getElementById(id);if(!t)return;t.style.display="block";t.select();
+ document.execCommand("copy");t.style.display="none";toast("提示词已复制，去 WorkBuddy 粘贴执行");}
+
+function genreChips(){const G=["都市","婚恋","原生家庭","悬疑复仇","校园BE"];
+ return '<div class="genre" id="gchips">'+G.map(g=>'<button onclick="setGenre(\''+g+'\')">'+g+'</button>').join("")+'</div>';}
+function setGenre(g){const p=cp();if(p){p.genre=g;save(p);}renderBrain();toast("题材："+g);}
+function endingChips(){const E=["HE","BE","开放式"];const p=cp();
+ return '<div class="genre" id="echips">'+E.map(e=>'<button class="'+(p&&p.ending===e?"on":"")+'" onclick="setEnding(\''+e+'\')">'+e+'</button>').join("")+'</div>';}
+function setEnding(e){const p=cp();if(p){p.ending=e;save(p);}renderBrain();}
+
+/* ===== ① 脑洞策划 ===== */
+function renderBrain(){
+ const box=document.getElementById("brainBody");
+ if(!cp()){box.innerHTML='<div class="empty">请先在上方新建或选择一部小说</div>';return;}
+ const p=cp();
+ let h='<div class="blk"><h3>① 脑洞评估 <span class="sub">· 提示词6 脑洞质量评估</span></h3>'
+  +'<label>题材</label>'+genreChips()
+  +'<label>期望结局</label>'+endingChips()
+  +'<label>目标字数</label><input type="number" id="f_target" value="'+p.target+'">'
+  +'<label>原始脑洞</label><textarea id="f_raw" placeholder="把你的脑洞写在这里…">'+esc(p.idea.raw||"")+'</textarea>'
+  +'<div class="acts"><button class="btn p" onclick="saveBrain()">保存</button>'
+  +pb2("ptAssess","复制评估提示词",T.assess(p))
+  +'<button class="btn s" onclick="gen(\'assess\')">🤖 直接生成</button>'
+  +'<button class="btn s" onclick="pasteBox(\'assess\')">📥 粘贴结果</button></div></div>';
  if(p.idea.assess){h+='<div class="blk"><h3>评估结果</h3><div class="sm">评分：<b>'+esc(p.idea.assess.score||"—")+'</b> / 10</div>'
   +'<div class="ev" style="margin-top:6px">'+esc(p.idea.assess.text||"")+'</div>'
   +'<label>定稿脑洞（按建议微调后）</label><textarea id="f_final">'+esc(p.idea.final||"")+'</textarea>'
-  +'<div class="acts"><button class="btn p" onclick="saveFinal()">保存定稿 → 下一步</button></div></div>';}
- return h;}
-function rStep1(){const p=cp();
- let h='<div class="blk"><h3>② 方案发散</h3><div class="sm">脑洞：'+esc((p.idea.final||p.idea.raw||"").slice(0,60))
-  +((p.idea.final||p.idea.raw||"").length>60?"…":"")+'</div><div class="acts">'+pb("pt1")
-  +'<button class="btn s" onclick="gen(1)">🤖 直接生成</button>'
-  +'<button class="btn s" onclick="pasteBox(\'outline\')">📥 粘贴方案</button></div>'
-  +'<textarea id="pt1" style="display:none">'+esc(T[1](p))+'</textarea></div>';
+  +'<div class="acts"><button class="btn p" onclick="saveFinalBrain()">保存定稿 → 生成方案</button></div></div>';}
+ h+='<div class="blk"><h3>② 故事方案 <span class="sub">· 提示词1 多方案大纲</span></h3>'
+  +'<div class="sm">脑洞：'+esc((p.idea.final||p.idea.raw||"").slice(0,60))+((p.idea.final||p.idea.raw||"").length>60?"…":"")+'</div>'
+  +'<div class="acts">'+pb2("ptOutline","复制方案提示词",T.outline(p))
+  +'<button class="btn s" onclick="gen(\'outline\')">🤖 直接生成</button>'
+  +'<button class="btn s" onclick="pasteBox(\'outline\')">📥 粘贴方案</button></div>';
  h+=p.outlines.map((o,i)=>'<div class="card"><div style="display:flex;justify-content:space-between;align-items:center">'
   +'<b>方案 '+o.code+' '+esc(o.name||"")+'</b>'
   +(p.selOutline===o.code?'<span class="b ok">已选定</span>':'<button class="btn s" onclick="selOut(\''+o.code+'\')">选定</button>')+'</div>'
@@ -284,72 +416,269 @@ function rStep1(){const p=cp();
   +'<div class="sm" style="margin-top:6px">梗概</div><div class="ev">'+esc(o.synopsis||"—")+'</div>'
   +'<div class="sm" style="margin-top:6px">开篇钩子</div><div class="ev">'+esc(o.hook||"—")+'</div>'
   +'<div class="acts"><button class="btn dg" onclick="delOut('+i+')">删除</button></div></div>').join("");
- if(p.selOutline)h+='<div class="acts"><button class="btn p" onclick="gotoStep(2)">下一步：正文生成 →</button></div>';
- return h;}
-function rStep2(){const p=cp();
- if(!p.selOutline)return '<div class="empty">请先在②里选定方案 A 或 B</div>';
- let h='<div class="blk"><h3>③ 正文生成</h3><label>文笔风格</label><select id="f_style">'
+ if(p.selOutline)h+='<div class="acts"><button class="btn p" onclick="switchTab(\'body\')">下一步：正文生成 →</button></div>';
+ box.innerHTML=h;
+ markChips();
+}
+function pb2(id,label,pstr){return promptBlock(id,label,pstr);}
+function markChips(){const p=cp();if(!p)return;
+ const gc=document.getElementById("gchips");if(gc)gc.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.textContent===p.genre));}
+function saveBrain(){const p=cp();p.target=+document.getElementById("f_target").value||20000;
+ p.idea.raw=document.getElementById("f_raw").value;save(p);renderBrain();toast("已保存");updMeta();}
+function saveFinalBrain(){const p=cp();p.idea.final=document.getElementById("f_final").value;save(p);
+ if(!p.outlines.length)toast("定稿已保存，可生成方案");else renderBrain();}
+function selOut(c){const p=cp();p.selOutline=c;save(p);renderBrain();toast("已选定方案 "+c);}
+function delOut(i){const p=cp();p.outlines.splice(i,1);
+ if(p.selOutline&&!p.outlines.find(o=>o.code===p.selOutline))p.selOutline=null;save(p);renderBrain();}
+
+/* ===== ② 正文生成 ===== */
+function renderBody(){
+ const box=document.getElementById("bodyBody");
+ if(!cp()){box.innerHTML='<div class="empty">请先在「脑洞」里新建或选择一部小说</div>';return;}
+ const p=cp();
+ if(!p.selOutline){box.innerHTML='<div class="empty">请先在「脑洞 → ② 故事方案」里选定方案 A 或 B</div>';return;}
+ let h='<div class="blk"><h3>③ 正文生成 <span class="sub">· 提示词2 多风格正文</span></h3>'
+  +'<label>文笔风格</label><select id="f_style">'
   +'<option value="A">A — 知乎原生爆款</option><option value="B">B — 双规克制文笔</option><option value="C">C — 高密度爽感打脸</option></select>'
-  +'<div class="acts"><button class="btn p" onclick="syncStyle()">用此风格生成提示词</button></div>'
-  +'<textarea id="pt2" style="display:none">'+esc(T[2](p,"A"))+'</textarea>'
-  +'<div class="acts">'+pb("pt2")+'<button class="btn s" onclick="gen(2)">🤖 直接生成</button>'
+  +'<div class="acts"><button class="btn p" onclick="syncStyle()">生成提示词</button>'
+  +pb2("ptBody","复制正文提示词",T.body(p,"A"))
+  +'<button class="btn s" onclick="gen(\'body\')">🤖 直接生成</button>'
   +'<button class="btn s" onclick="pasteBox(\'ms\')">📥 粘贴正文</button></div></div>';
- if(p.mss.length)h+='<div class="blk"><h3>已有正文（'+p.mss.length+' 稿）</h3>'
+ if(p.mss.length){h+='<div class="blk"><h3>已有正文（'+p.mss.length+' 稿）</h3>'
   +p.mss.map((m,i)=>'<div class="kv"><span>风格 '+m.style+' · '+m.words+' 字 · '+esc(m.at)+'</span><span>'
   +'<button class="btn s" onclick="viewMs('+i+')">查看</button> '
   +'<button class="btn dg" onclick="delMs('+i+')">删</button></span></div>').join("")+'</div>';
- return h;}
-function rStep3(){const p=cp();
- if(!p.mss.length)return '<div class="empty">请先在③里生成或粘贴正文</div>';
- let h='<div class="blk"><h3>④ 诊断优化</h3><div class="sm">快捷反馈（点一下填入）</div><div>'
-  +(DATA.quickFixes||[]).map((f,i)=>'<span class="tag" onclick="fillFb('+i+')">'+esc(f.symptom)+'</span>').join("")+'</div>'
-  +'<label>反馈内容</label><textarea id="f_fb" placeholder="例如：全文太 AI，人物没有真实感…"></textarea>'
+  const ms=p.mss[p.mss.length-1];
+  h+='<div class="blk"><h3>当前正文编辑</h3><textarea id="edms" style="min-height:280px">'+esc(ms.text)+'</textarea>'
+  +'<div class="acts"><button class="btn p" onclick="saveMs()">保存修改</button>'
+  +'<button class="btn" onclick="expMd()">导出 Markdown</button></div>'
+  +'<div class="sm" id="wc">'+ms.words+' 字</div></div>';}
+ box.innerHTML=h;
+ const ed=document.getElementById("edms");if(ed)ed.oninput=()=>document.getElementById("wc").textContent=cw(ed.value)+" 字";
+}
+function syncStyle(){const s=document.getElementById("f_style").value;
+ document.getElementById("ptBody").value=T.body(cp(),s);document.getElementById("ptBody").style.display="block";
+ toast("提示词已按风格 "+s+" 生成，点「复制提示词」");}
+function saveMs(){const p=cp(),t=document.getElementById("edms").value,m=p.mss[p.mss.length-1];
+ if(!m){p.mss.push({style:"A",text:t,words:cw(t),at:now()});}else{m.text=t;m.words=cw(t);m.at=now();}
+ save(p);renderProjects();updMeta();toast("已保存");}
+function delMs(i){if(!confirm("删除这稿正文？"))return;const p=cp();p.mss.splice(i,1);save(p);renderBody();renderProjects();}
+function viewMs(i){const m=cp().mss[i];
+ showSheet("正文 · 风格"+m.style,'<div class="sm">'+m.words+' 字 · '+esc(m.at)+'</div>'
+  +'<div class="ev" style="margin-top:8px;max-height:48vh">'+esc(m.text)+'</div>'
+  +'<div class="acts"><button class="btn" onclick="copyText(\'mstx\')">复制</button><button class="btn" onclick="closeSheet()">关闭</button></div>'
+  +'<textarea id="mstx" style="display:none">'+esc(m.text)+'</textarea>');}
+function expMd(){const p=cp(),ms=p.mss[p.mss.length-1];if(!ms){toast("无正文");return;}
+ dl(p.title+".md","# "+p.title+"\n\n"+ms.text);}
+function dl(name,content){const b=new Blob([content],{type:"text/plain;charset=utf-8"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;a.click();}
+
+/* ===== ③ 素材库 ===== */
+function renderMat(){
+ const tabs=[["bao","🔥 爆款文档"],["idea","💡 脑洞灵感"],["style","✍ 风格样本"],["boom","💥 爆点标签"],["hook","🪝 开篇钩子"],["fav","⭐ 我的收藏"]];
+ document.getElementById("matTabs").innerHTML=tabs.map(([k,l])=>'<button class="'+(curMat===k?"on":"")+'" onclick="switchMat(\''+k+'\')">'+l+'</button>').join("")
+  +'<span style="margin-left:auto;font-size:10px;color:var(--sub);align-self:center">收藏 '+materials.favs.length+'</span>';
+ renderMatPanel();
+}
+function switchMat(k){curMat=k;renderMat();}
+function renderMatPanel(){
+ const box=document.getElementById("matBody");const S=DATA.matSeeds||SEED;
+ if(curMat==="fav"){box.innerHTML=materials.favs.length?materials.favs.map((f,i)=>'<div class="mcard"><div class="mt">'+esc(f.t)+'</div>'
+   +'<div class="mf">'+esc(f.c||"")+'</div><div class="meta">'+esc(f.from||"")+'</div>'
+   +'<div class="acts"><button class="btn p" onclick="fav2brain('+i+')">一键导入脑洞</button>'
+   +'<button class="btn dg" onclick="delFav('+i+')">取消收藏</button></div></div>').join("")
+   :'<div class="empty">还没有收藏，去其他面板点「收藏」</div>';return;}
+ if(curMat==="style"){box.innerHTML=(S.style||[]).map(s=>'<div class="mcard"><div class="mt">'+esc(s.name)+'</div>'
+   +'<div class="mf"><b>样段：</b>\n'+esc(s.sample||"")+'</div>'
+   +'<div class="mf" style="margin-top:6px"><b>写作约束清单：</b>\n'+esc((s.rules||[]).join("\n· "))+'</div>'
+   +'<div class="acts"><button class="btn p" data-act="copyStr" data-p="'+attr(s.sample||"")+'" onclick="fire(this)">复制样段</button>'
+   +'<button class="btn" data-act="style2brain" data-p="'+attr(s.name)+'" onclick="fire(this)">记为风格参考</button></div></div>').join("")
+   +'<div class="blk" style="margin-top:10px"><h3>＋ 粘贴自定义样文学习新文风</h3>'
+   +'<textarea id="custyle" placeholder="粘贴一段你喜欢的文风样文…"></textarea>'
+   +'<div class="acts"><button class="btn p" onclick="saveCustStyle()">保存为自定义风格</button></div>'
+   +promptBlock("ptStyle","复制风格库提示词(提示词3)",T.mat(null,"风格样本库：学习新文风"))+'</div>';return;}
+ if(curMat==="boom"){const b=S.boom||{};
+  box.innerHTML=Object.keys(b).map(cat=>'<div class="blk"><h3>'+esc(cat)+'</h3><div>'
+   +b[cat].map(t=>'<span class="tag" data-act="boom2brain" data-p="'+attr(t)+'" onclick="fire(this)">'+esc(t)+'</span>').join("")+'</div></div>').join("")
+   +'<div class="blk"><h3>多标签组合生成脑洞</h3><div class="sm">点上面的标签可逐个喂入脑洞策划；也可复制下方提示词让 WorkBuddy 组合生成</div>'
+   +promptBlock("ptBoom","复制爆点标签库提示词(提示词3)",T.mat(null,"查询爆点标签并组合生成脑洞"))+'</div>';return;}
+ if(curMat==="hook"){const hk=S.hook||{};
+  box.innerHTML=Object.keys(hk).map(cat=>'<div class="blk"><h3>'+esc(cat)+'</h3>'
+   +hk[cat].map(x=>'<div class="mcard"><div class="mf">'+esc(x)+'</div>'
+   +'<div class="acts"><button class="btn p" data-act="copyStr" data-p="'+attr(x)+'" onclick="fire(this)">复制钩子</button>'
+   +'<button class="btn" data-act="hook2brain" data-p="'+attr(x)+'" onclick="fire(this)">作开篇导入</button></div></div>').join("")+'</div>').join("")
+   +promptBlock("ptHook","复制开篇钩子库提示词(提示词3)",T.mat(null,"获取开篇钩子"))+'</div>';return;}
+ /* bao / idea 带题材筛选 */
+ const G=["全部","都市","婚恋","原生家庭","悬疑复仇","校园BE"];
+ const filt='<div class="genre" id="mgenre">'+G.map(g=>'<button class="'+(matGenre===g?"on":"")+'" onclick="setMatGenre(\''+g+'\')">'+g+'</button>').join("")+'</div>';
+ if(curMat==="bao"){
+  const all=(S.bao||[]);const list=all.map((x,idx)=>({x,idx})).filter(o=>matGenre==="全部"||o.x.genre===matGenre||!o.x.genre);
+  box.innerHTML=filt+'<div class="acts" style="margin-top:4px">'+pb2("ptBao","复制爆款库提示词(提示词3)",T.mat(matGenre,"刷新爆款库"))+'</div>'
+   +(list.length?list.map(o=>{const x=o.x,i=o.idx;return '<div class="mcard"><div class="mt">'+esc(x.title||"")+' <span class="b p">'+esc(x.genre||"")+'</span></div>'
+    +'<div class="mf"><b>核心爆点：</b>'+esc(x.boom||"")+'</div>'
+    +'<div class="mf"><b>开篇钩子摘抄：</b>'+esc(x.hook||"")+'</div>'
+    +'<div class="mf"><b>付费卡点：</b>'+esc(x.cut||"")+'</div>'
+    +'<div class="mf"><b>反转设计：</b>'+esc(x.twist||"")+'</div>'
+    +'<div class="mf">✅可借鉴：'+esc(x.good||"")+'</div>'
+    +'<div class="mf">⚠️避坑：'+esc(x.warn||"")+'</div>'
+    +'<div class="acts"><button class="btn p" onclick="favBao('+i+')">收藏</button>'
+    +'<button class="btn" onclick="bao2brain('+i+')">一键导入脑洞</button></div></div>';}).join("")
+    :'<div class="empty">该题材暂无样例，点「复制爆款库提示词」让 WorkBuddy 生成</div>');return;}
+ if(curMat==="idea"){
+  const all=(S.idea||[]);const list=all.map((x,idx)=>({x,idx})).filter(o=>matGenre==="全部"||o.x.genre===matGenre||!o.x.genre);
+  box.innerHTML=filt+'<div class="acts" style="margin-top:4px">'+pb2("ptIdea","复制脑洞灵感提示词(提示词3)",T.mat(matGenre,"获取脑洞灵感"))+'</div>'
+   +(list.length?list.map(o=>{const x=o.x,i=o.idx;return '<div class="mcard"><div class="mt">'+esc(x.t||"")+' <span class="b p">'+esc(x.genre||"")+'</span></div>'
+    +'<div class="mf">冲突内核：'+esc(x.conflict||"")+'</div>'
+    +'<div class="mf">适合结局：'+esc(x.end||"")+' · 风险短板：'+esc(x.risk||"")+'</div>'
+    +'<div class="mf">改良方向：'+esc(x.fix||"")+'</div>'
+    +'<div class="acts"><button class="btn p" onclick="favIdea('+i+')">收藏</button>'
+    +'<button class="btn" onclick="idea2brain('+i+')">一键导入脑洞</button></div></div>';}).join("")
+    :'<div class="empty">该题材暂无脑洞，点「复制脑洞灵感提示词」生成</div>');return;}
+}
+let matGenre="全部";
+function setMatGenre(g){matGenre=g;renderMatPanel();}
+function favBao(i){const x=(DATA.matSeeds||SEED).bao[i];materials.favs.unshift({t:x.title,from:"爆款文档库",c:(x.boom||"")+"\n"+((x.hook||""))});setMeta("materials",materials);renderMat();toast("已收藏");}
+function favIdea(i){const x=(DATA.matSeeds||SEED).idea[i];materials.favs.unshift({t:x.t,from:"脑洞灵感池",c:(x.conflict||"")});setMeta("materials",materials);renderMat();toast("已收藏");}
+function delFav(i){materials.favs.splice(i,1);setMeta("materials",materials);renderMat();}
+function bao2brain(i){const x=(DATA.matSeeds||SEED).bao[i];mat2brain((x.title||"")+"："+(x.boom||"")+"；开篇："+(x.hook||""));}
+function idea2brain(i){const x=(DATA.matSeeds||SEED).idea[i];mat2brain(x.t||"");}
+function boom2brain(t){mat2brain("爆点标签："+t);}
+function hook2brain(x){mat2brain("开篇钩子："+x);}
+function style2brain(name){const p=cp();if(!p){toast("请先新建/选择项目");return;}p.constraints=p.constraints||[];
+ if(!p.constraints.includes("参考文风："+name))p.constraints.push("参考文风："+name);save(p);toast("已记为风格参考");}
+function fav2brain(i){const f=materials.favs[i];mat2brain((f.t||"")+"："+(f.c||""));}
+function mat2brain(text){const p=cp();if(!p){toast("请先新建/选择项目");return;}
+ p.idea.raw=text;if(!p.idea.final)p.idea.final=text;save(p);switchTab("brain");renderBrain();toast("已导入脑洞策划");}
+function saveCustStyle(){const v=document.getElementById("custyle").value.trim();if(!v){toast("请粘贴样文");return;}
+ const S=DATA.matSeeds||SEED;S.style=S.style||[];S.style.push({name:"自定义风格"+(S.style.length+1),sample:v,rules:["（用户自定义，按样文风格写作）"]});
+ DATA.matSeeds=S;renderMat();toast("已保存自定义风格");}
+function copyStr(s){const ta=document.createElement("textarea");ta.value=s;ta.style.position="fixed";ta.style.opacity="0";
+ document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);toast("已复制");}
+function attr(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+function fire(el){const a=el.getAttribute("data-act"),v=el.getAttribute("data-p")||"";if(a&&window[a])window[a](v);}
+
+/* ===== ④ 诊断优化 ===== */
+function renderDiag(){
+ const box=document.getElementById("diagBody");
+ if(!cp()){box.innerHTML='<div class="empty">请先新建/选择一部小说</div>';return;}
+ const p=cp();
+ if(!p.mss.length){box.innerHTML='<div class="empty">请先在「正文」里生成或粘贴正文</div>';return;}
+ const qf=(DATA.quickFixes||[]).concat([{symptom:"太 AI",feedback:"全文太AI，人物没有真实感，反转来的莫名其妙"},
+  {symptom:"动机悬浮",feedback:"女主行为逻辑不通，很多行为没有动机"},
+  {symptom:"节奏平淡",feedback:"节奏太慢，前半部分没有冲突抓不住人"},
+  {symptom:"对话生硬",feedback:"对话很书面，不符合普通人说话习惯"}]);
+ let h='<div class="blk"><h3>④ 诊断优化 <span class="sub">· 提示词4 反馈驱动诊断</span></h3>'
+  +'<div class="sm">快捷反馈（点一下填入）</div><div>'+qf.map((f,i)=>'<span class="tag" onclick="fillFb('+i+')">'+esc(f.symptom)+'</span>').join("")+'</div>'
+  +'<label>反馈内容</label><textarea id="f_fb" placeholder="例如：全文太 AI，人物没有真实感…">'+esc(window._fb||"")+'</textarea>'
   +'<div class="acts"><button class="btn p" onclick="syncFb()">生成诊断提示词</button>'
-  +'<button class="btn s" onclick="gen(3)">🤖 直接诊断</button>'
-  +'<button class="btn s" onclick="pasteBox(\'diag\')">📥 粘贴结果</button></div>'
-  +'<textarea id="pt3" style="display:none"></textarea></div>';
+  +pb2("ptDiag","复制诊断提示词",T.diag(p,""))
+  +'<button class="btn s" onclick="gen(\'diag\')">🤖 直接诊断</button>'
+  +'<button class="btn s" onclick="pasteBox(\'diag\')">📥 粘贴结果</button></div></div>';
  if((p.constraints||[]).length)h+='<div class="blk"><h3>🚫 已积累规避约束（后续生成自动带上）</h3>'
   +p.constraints.map((c,i)=>'<div class="kv"><span>'+esc(c)+'</span><button class="btn dg" onclick="delCon('+i+')">删</button></div>').join("")+'</div>';
  if(p.diags.length)h+='<div class="blk"><h3>诊断记录</h3>'
   +p.diags.map((d,i)=>'<div class="kv"><span>'+esc(d.at)+' · '+esc((d.fb||"").slice(0,18))+'</span>'
   +'<button class="btn s" onclick="viewDiag('+i+')">查看</button></div>').join("")+'</div>';
- return h;}
-function rStep4(){const p=cp();
- let h='<div class="blk"><h3>⑤ 版本管理</h3><div class="sm">小改（局部润色/段落重写）→ 小数点 +1；大改（换方案/换风格/全文重写）→ 整数 +1</div>'
+ box.innerHTML=h;
+ if(window._fbSel>=0){const el=document.getElementById("f_fb");if(el)el.value=qf[window._fbSel].feedback;}
+}
+function fillFb(i){const qf=(DATA.quickFixes||[]).concat([{symptom:"太 AI",feedback:"全文太AI，人物没有真实感，反转来的莫名其妙"},
+  {symptom:"动机悬浮",feedback:"女主行为逻辑不通，很多行为没有动机"},
+  {symptom:"节奏平淡",feedback:"节奏太慢，前半部分没有冲突抓不住人"},
+  {symptom:"对话生硬",feedback:"对话很书面，不符合普通人说话习惯"}]);
+ document.getElementById("f_fb").value=qf[i].feedback;document.getElementById("f_fb").focus();toast("已填入反馈");}
+function syncFb(){const fb=document.getElementById("f_fb").value.trim();
+ if(!fb){toast("请先写反馈");return;}document.getElementById("ptDiag").value=T.diag(cp(),fb);
+ document.getElementById("ptDiag").style.display="block";toast("诊断提示词已生成，点「复制诊断提示词」");}
+function delCon(i){const p=cp();p.constraints.splice(i,1);save(p);renderDiag();}
+function viewDiag(i){const d=cp().diags[i];
+ showSheet("诊断 · "+d.at,'<div class="sm">反馈：'+esc(d.fb)+'</div>'
+  +'<div class="ev" style="margin-top:8px;max-height:48vh">'+esc(d.text)+'</div>'
+  +'<div class="acts"><button class="btn" onclick="closeSheet()">关闭</button></div>');}
+
+/* ===== ⑤ 版本管理 ===== */
+function renderVer(){
+ const box=document.getElementById("verBody");
+ if(!cp()){box.innerHTML='<div class="empty">请先新建/选择一部小说</div>';return;}
+ const p=cp();
+ let h='<div class="blk"><h3>⑤ 版本管理 <span class="sub">· 提示词5 保存/回退/归档</span></h3>'
+  +'<div class="sm">小改（局部润色/段落重写）→ 小数点 +1；大改（换方案/换风格/全文重写）→ 整数 +1</div>'
   +'<label>修改说明</label><input type="text" id="f_note" placeholder="本次改了什么">'
   +'<div class="acts"><button class="btn p" onclick="saveVer(\'minor\')">存为小改</button>'
-  +'<button class="btn" onclick="saveVer(\'major\')">存为大改</button>'+pb("pt4")+'</div>'
-  +'<textarea id="pt4" style="display:none">'+esc(T[4](p))+'</textarea></div>';
- if(p.versions.length)h+='<div class="blk"><h3>版本历史</h3>'
-  +p.versions.slice().reverse().map(v=>'<div class="kv"><span><b>V'+v.v+'</b> · '+esc(v.at)+' · '+esc(v.type)
-  +' · <span class="b '+(v.state==="在用"?"ok":v.state==="归档废弃"?"gray":"warn")+'">'+esc(v.state)+'</span></span><span>'
-  +'<button class="btn s" onclick="viewVer(\''+v.v+'\')">看</button> '
-  +'<button class="btn s" onclick="setState(\''+v.v+'\',\'在用\')">在用</button> '
-  +'<button class="btn s" onclick="setState(\''+v.v+'\',\'归档废弃\')">归档</button></span></div>'
-  +'<div class="sm">'+esc(v.note||"")+'</div>').join("")+'</div>';
- else h+='<div class="empty">还没有版本记录</div>';
- return h;}
+  +'<button class="btn" onclick="saveVer(\'major\')">存为大改</button>'
+  +pb2("ptVer","复制版本提示词",T.ver(p))+'</div></div>';
+ if(p.versions.length){
+  h+='<div class="blk"><h3>版本历史</h3><table class="mtbl"><tr><th>版本</th><th>时间</th><th>类型</th><th>状态</th><th>操作</th></tr>'
+   +p.versions.slice().reverse().map(v=>'<tr><td><b>V'+esc(v.v)+'</b></td><td>'+esc(v.at)+'</td><td>'+esc(v.type)+'</td>'
+    +'<td><span class="b '+(v.state==="在用"?"ok":v.state==="归档废弃"?"gray":"warn")+'">'+esc(v.state)+'</span></td>'
+    +'<td>'+'<button class="btn s" onclick="viewVer(\''+v.v+'\')">看</button> '
+    +'<button class="btn s" onclick="setState(\''+v.v+'\',\'在用\')">在用</button> '
+    +'<button class="btn s" onclick="setState(\''+v.v+'\',\'归档废弃\')">归档</button>'
+    +'<button class="btn s" onclick="restoreVer(\''+v.v+'\')">回退</button></td></tr>').join("")
+   +'</table><div class="sm" style="margin-top:6px">'+esc(p.versions.slice().reverse().map(v=>"V"+v.v+" "+v.state).join(" / "))+'</div>'
+   +'<div class="acts"><button class="btn" onclick="expVerMd()">导出全部版本 Markdown</button></div></div>';
+ } else h+='<div class="empty">还没有版本记录，生成正文后点「存为小改/大改」</div>';
+ box.innerHTML=h;
+}
+function saveVer(kind){const p=cp();const note=(document.getElementById("f_note")||{}).value||"";
+ const last=p.versions.length?p.versions[p.versions.length-1].v:"1.0";
+ let a=parseInt(last,10),b=parseInt((last.split(".")[1]||"0"),10);
+ if(kind==="minor")b++;else{a++;b=0;}
+ const nv=a+"."+b;
+ const body=p.mss.length?p.mss[p.mss.length-1].text:(p.outlines.length?fmtOutline(p.outlines[0]):"");
+ p.versions.push({v:nv,at:now(),note,type:p.mss.length?"完整正文":"大纲",state:"草稿",text:body,
+  style:p.mss.length?p.mss[p.mss.length-1].style:"",idea:p.idea.final||p.idea.raw,outline:p.selOutline||""});
+ save(p);renderVer();renderProjects();toast("已存为 V"+nv);}
+function setState(v,st){const p=cp();const t=p.versions.find(x=>x.v===v);if(t){t.state=st;save(p);renderVer();toast("V"+v+" → "+st);}}
+function viewVer(v){const p=cp();const t=p.versions.find(x=>x.v===v);if(!t)return;
+ showSheet("V"+t.v+" · "+t.at,'<div class="sm">'+esc(t.type)+' · '+esc(t.state)+' · '+esc(t.note||"")+'</div>'
+  +'<div class="ev" style="margin-top:8px;max-height:48vh">'+esc(t.text||"")+'</div>'
+  +'<div class="acts"><button class="btn p" onclick="restoreVer(\''+v+'\')">回退到此版本</button>'
+  +'<button class="btn" onclick="copyText(\'vtxt\')">复制全文</button><button class="btn" onclick="closeSheet()">关闭</button></div>'
+  +'<textarea id="vtxt" style="display:none">'+esc(t.text||"")+'</textarea>');}
+function restoreVer(v){const p=cp();const t=p.versions.find(x=>x.v===v);if(!t)return;
+ p.mss.push({style:t.style||"A",text:t.text||"",words:cw(t.text),at:now()+"（回退自 V"+v+"）"});
+ save(p);closeSheet();renderVer();renderBody();renderProjects();toast("已回退到 V"+v);}
+function expVerMd(){const p=cp();if(!p.versions.length){toast("无版本");return;}
+ let md="# "+p.title+" · 版本记录\n\n";
+ p.versions.slice().reverse().forEach(v=>{md+="## V"+v.v+"（"+v.state+"） "+v.at+"\n修改说明："+(v.note||"")+"\n\n"+(v.text||"")+"\n\n---\n\n";});
+ dl(p.title+"-版本记录.md",md);}
 
-/* ===== 步骤交互 ===== */
-function saveStep0(){const p=cp();
- p.genre=document.getElementById("f_genre").value;p.target=+document.getElementById("f_target").value||20000;
- p.ending=document.getElementById("f_ending").value;p.idea.raw=document.getElementById("f_raw").value;
- save(p);renderCreate();toast("已保存");}
-function saveFinal(){const p=cp();p.idea.final=document.getElementById("f_final").value;save(p);step=1;renderCreate();toast("已定稿，进入方案发散");}
-function syncStyle(){const s=document.getElementById("f_style").value;
- document.getElementById("pt2").value=T[2](cp(),s);toast("提示词已按风格 "+s+" 生成");}
-function syncFb(){const fb=document.getElementById("f_fb").value.trim();
- if(!fb){toast("请先写反馈");return;}document.getElementById("pt3").value=T[3](cp(),fb);toast("诊断提示词已生成");}
-function fillFb(i){document.getElementById("f_fb").value=DATA.quickFixes[i].feedback;
- document.getElementById("f_fb").focus();toast("已填入反馈");}
-function selOut(c){const p=cp();p.selOutline=c;save(p);renderCreate();toast("已选定方案 "+c);}
-function delOut(i){const p=cp();p.outlines.splice(i,1);
- if(p.selOutline&&!p.outlines.find(o=>o.code===p.selOutline))p.selOutline=null;save(p);renderCreate();}
-function delCon(i){const p=cp();p.constraints.splice(i,1);save(p);renderCreate();}
-function delMs(i){if(!confirm("删除这稿正文？"))return;const p=cp();p.mss.splice(i,1);save(p);renderCreate();}
-function copyPrompt(id){const t=document.getElementById(id);if(!t)return;
- t.style.display="block";t.select();document.execCommand("copy");t.style.display="none";
- toast("提示词已复制，去 WorkBuddy 粘贴执行");}
+/* ===== ⑥ 设置 ===== */
+function renderSet(){
+ const box=document.getElementById("setBody");const api=DATA.apiDefaults||{};
+ let h='<div class="blk"><h3>🤖 AI 接口（模式 B，可选）</h3>'
+  +'<div class="warnbox">'+(api.corsNote||"微信/手机浏览器直连部分接口会因跨域预检被拦截（如日日新 OPTIONS 返回 404）。密钥只存本机，绝不写入公开文件。可将 Base URL 指向你自建的 CORS 转发。")+'</div>'
+  +'<label>Base URL</label><input type="text" id="aurl" placeholder="https://token.sensenova.cn/v1">'
+  +'<label>API Key（仅存本机，绝不上传）</label><input type="password" id="akey" placeholder="sk-…">'
+  +'<label>模型 ID（区分大小写，全小写）</label><select id="amodel"></select>'
+  +'<label>最大输出 tokens</label><input type="number" id="amax" value="32768" min="512" max="65536">'
+  +'<div class="acts"><button class="btn p" onclick="saveAI()">保存配置</button>'
+  +'<button class="btn" onclick="testAI()">测试连接</button>'
+  +'<button class="btn dg" onclick="clearKey()">清除 Key</button></div>'
+  +'<div id="aitest" class="sm" style="margin-top:8px"></div></div>'
+  +'<div class="blk"><h3>🔒 安全</h3><label>修改访问密码</label><input type="text" id="npw" placeholder="新密码">'
+  +'<div class="acts"><button class="btn" onclick="setPwd()">保存密码</button>'
+  +'<button class="btn dg" onclick="lockNow()">立即锁定</button></div></div>'
+  +'<div class="blk"><h3>📋 总控入口提示词（提示词0）</h3><div class="sm">每次开工先运行它，维护 Tab 状态机，修复栏目点击不切换</div>'
+  +promptBlock("ptCtrl","复制总控提示词",T[0])+'</div>'
+  +'<div class="blk"><h3>🔧 高频反馈速查（内置诊断）</h3>'
+  +promptBlock("ptFix","复制反馈速查",T.fixnote())+'</div>'
+  +'<div class="blk"><h3>💾 存储与备份</h3><div id="stor"></div>'
+  +'<div class="acts" style="margin-top:8px"><button class="btn" onclick="exportAll()">导出全部备份</button>'
+  +'<button class="btn dg" onclick="clearCache()">清空本机缓存</button></div></div>';
+ box.innerHTML=h;
+ const ms=api.models||[];
+ document.getElementById("amodel").innerHTML=ms.map(m=>'<option value="'+m.id+'"'+(m.recommended?" selected":"")+'>'+esc(m.label)+'</option>').join("")
+  ||'<option value="sensenova-6.8-flash-lite">sensenova-6.8-flash-lite</option>';
+ const cfg=JSON.parse(localStorage.getItem(AI_KEY)||"null");
+ if(cfg){aurl.value=cfg.url||"";amodel.value=cfg.model||"";amax.value=cfg.max||32768;akey.value=cfg.key?"••••••":"";}
+ if(!aurl.value&&api.baseUrl)aurl.value=api.baseUrl;
+ renderStor();
+}
+function clearCache(){if(!confirm("确定清空本机所有小说、素材与配置？此操作不可恢复，建议先导出备份。"))return;
+ indexedDB.deleteDatabase("zhihu-novel-studio");localStorage.removeItem(AI_KEY);localStorage.removeItem(UNLOCK);
+ localStorage.removeItem(PWD_KEY);toast("已清空，页面将刷新");setTimeout(()=>location.reload(),800);}
 
 /* ===== 解析与保存 ===== */
 function sec(b,n){const re=new RegExp("##\\s*"+n+"[\\s\\S]*?\\n([\\s\\S]*?)(?=\\n##\\s|$)");const m=b.match(re);return m?m[1].trim():"";}
@@ -370,8 +699,7 @@ function applyResult(kind,txt){const p=cp();let msg="";
   p.diags.push({fb,text:txt,at:now()});
   const con=(txt.match(/约束指令[：:][\s\S]*?(?=\n#|$)/)||[])[0]||"";
   const lines=con.replace(/约束指令[：:]/,"").split("\n").map(s=>s.replace(/^[-•\d.\s]*/,"").trim()).filter(s=>s.length>3);
-  if(!p.constraints)p.constraints=[];
-  lines.forEach(l=>{if(!p.constraints.includes(l))p.constraints.push(l);});
+  if(!p.constraints)p.constraints=[];lines.forEach(l=>{if(!p.constraints.includes(l))p.constraints.push(l);});
   msg="诊断已保存"+(lines.length?"，新增 "+lines.length+" 条约束":"");}
  save(p);return msg;}
 function pasteBox(kind){const t={assess:"粘贴脑洞评估结果",outline:"粘贴方案（支持 A/B 两套）",
@@ -381,96 +709,7 @@ function pasteBox(kind){const t={assess:"粘贴脑洞评估结果",outline:"粘�
   +'<button class="btn" onclick="closeSheet()">取消</button></div>');}
 function doPaste(kind){const txt=document.getElementById("psta").value;
  if(!txt.trim()){toast("内容为空");return;}
- const msg=applyResult(kind,txt);closeSheet();renderCreate();renderProjects();toast(msg);}
-
-/* ===== 版本 ===== */
-function saveVer(kind){const p=cp();const note=(document.getElementById("f_note")||{}).value||"";
- const last=p.versions.length?p.versions[p.versions.length-1].v:"1.0";
- let a=parseInt(last,10),b=parseInt((last.split(".")[1]||"0"),10);
- if(kind==="minor")b++;else{a++;b=0;}
- const nv=a+"."+b;
- const body=p.mss.length?p.mss[p.mss.length-1].text:(p.outlines.length?fmtOutline(p.outlines[0]):"");
- p.versions.push({v:nv,at:now(),note,type:p.mss.length?"完整正文":"大纲",state:"草稿",text:body,
-  style:p.mss.length?p.mss[p.mss.length-1].style:"",idea:p.idea.final||p.idea.raw,outline:p.selOutline||""});
- save(p);renderCreate();toast("已存为 V"+nv);}
-function setState(v,st){const p=cp();const t=p.versions.find(x=>x.v===v);if(t){t.state=st;save(p);renderCreate();}}
-function viewVer(v){const p=cp();const t=p.versions.find(x=>x.v===v);if(!t)return;
- showSheet("V"+t.v+" · "+t.at,'<div class="sm">'+esc(t.type)+' · '+esc(t.state)+' · '+esc(t.note||"")+'</div>'
-  +'<div class="ev" style="margin-top:8px;max-height:48vh">'+esc(t.text||"")+'</div>'
-  +'<div class="acts"><button class="btn p" onclick="restoreVer(\''+v+'\')">回退到此版本</button>'
-  +'<button class="btn" onclick="copyText(\'vtxt\')">复制全文</button>'
-  +'<button class="btn" onclick="closeSheet()">关闭</button></div>'
-  +'<textarea id="vtxt" style="display:none">'+esc(t.text||"")+'</textarea>');}
-function restoreVer(v){const p=cp();const t=p.versions.find(x=>x.v===v);
- p.mss.push({style:t.style||"A",text:t.text||"",words:cw(t.text),at:now()+"（回退自 V"+v+"）"});
- save(p);closeSheet();renderCreate();toast("已回退到 V"+v);}
-function viewMs(i){const m=cp().mss[i];
- showSheet("正文 · 风格"+m.style,'<div class="sm">'+m.words+' 字 · '+esc(m.at)+'</div>'
-  +'<div class="ev" style="margin-top:8px;max-height:48vh">'+esc(m.text)+'</div>'
-  +'<div class="acts"><button class="btn" onclick="copyText(\'mstx\')">复制</button>'
-  +'<button class="btn" onclick="closeSheet()">关闭</button></div>'
-  +'<textarea id="mstx" style="display:none">'+esc(m.text)+'</textarea>');}
-function viewDiag(i){const d=cp().diags[i];
- showSheet("诊断 · "+d.at,'<div class="sm">反馈：'+esc(d.fb)+'</div>'
-  +'<div class="ev" style="margin-top:8px;max-height:48vh">'+esc(d.text)+'</div>'
-  +'<div class="acts"><button class="btn" onclick="closeSheet()">关闭</button></div>');}
-function copyText(id){const t=document.getElementById(id);t.style.display="block";t.select();
- document.execCommand("copy");t.style.display="none";toast("已复制");}
-
-/* ===== 稿件 ===== */
-function renderDoc(){const box=document.getElementById("dbody");
- if(!cp()){box.innerHTML='<div class="empty">请先在「项目」里选择一部小说</div>';return;}
- const p=cp(),ms=p.mss.length?p.mss[p.mss.length-1]:null;
- let h='<div class="blk"><h3>'+esc(p.title)+'</h3>'
-  +'<div class="kv"><span>题材 / 结局</span><b>'+esc(p.genre)+' / '+p.ending+'</b></div>'
-  +'<div class="kv"><span>目标字数</span><b>'+p.target+'</b></div>'
-  +'<div class="kv"><span>当前正文</span><b>'+(ms?ms.words+" 字":"—")+'</b></div>'
-  +'<div class="kv"><span>版本数</span><b>'+p.versions.length+'</b></div></div>';
- if(ms)h+='<div class="blk"><h3>正文编辑</h3><textarea id="edms" style="min-height:300px">'+esc(ms.text)+'</textarea>'
-  +'<div class="acts"><button class="btn p" onclick="saveMs()">保存修改</button>'
-  +'<button class="btn" onclick="expMd()">导出 Markdown</button></div><div class="sm" id="wc">'+ms.words+' 字</div></div>';
- else h+='<div class="empty">还没有正文，去「创作 → ③ 正文生成」</div>';
- box.innerHTML=h;
- const ed=document.getElementById("edms");
- if(ed)ed.oninput=()=>document.getElementById("wc").textContent=cw(ed.value)+" 字";}
-function saveMs(){const p=cp(),t=document.getElementById("edms").value,m=p.mss[p.mss.length-1];
- m.text=t;m.words=cw(t);m.at=now();save(p);renderProjects();updMeta();toast("已保存");}
-function dl(name,content){const b=new Blob([content],{type:"text/plain;charset=utf-8"});
- const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;a.click();}
-function expMd(){const p=cp(),ms=p.mss[p.mss.length-1];dl(p.title+".md","# "+p.title+"\n\n"+ms.text);}
-
-/* ===== 素材 ===== */
-function renderStatic(){
- document.getElementById("mstyles").innerHTML=(DATA.styles||[]).map(s=>'<div class="card"><b>风格 '+s.code+' — '+esc(s.name)+'</b>'
-  +'<div class="sm" style="margin:5px 0">适用：'+(s.genres||[]).join(" / ")+'</div>'
-  +'<div>'+(s.features||[]).map(f=>"· "+esc(f)).join("<br>")+'</div></div>').join("")||'<div class="sm">（素材未加载）</div>';
- document.getElementById("mfix").innerHTML=(DATA.quickFixes||[]).map((f,i)=>'<div class="card">'
-  +'<div style="display:flex;justify-content:space-between;align-items:center"><b>'+esc(f.symptom)+'</b>'
-  +'<span class="tag" onclick="useFix('+i+')">用这个反馈</span></div>'
-  +'<div class="sm" style="margin-top:5px">推荐反馈：'+esc(f.feedback)+'</div>'
-  +'<div class="sm" style="margin-top:4px">优化方向：'+esc(f.direction)+'</div></div>').join("")||"";
- const api=DATA.apiDefaults||{};
- document.getElementById("corswarn").innerHTML="⚠️ "+esc(api.corsNote||"")
-  +"<br>密钥只存在本机浏览器，不会写进任何公开发布的文件。";
- const ms=api.models||[];
- document.getElementById("amodel").innerHTML=ms.map(m=>'<option value="'+m.id+'"'+(m.recommended?" selected":"")+'>'+esc(m.label)+'</option>').join("")
-  ||'<option value="sensenova-6.8-flash-lite">sensenova-6.8-flash-lite</option>';
- if(!localStorage.getItem(AI_KEY)&&!aurl.value)aurl.value=api.baseUrl||"";}
-function useFix(i){step=3;switchTab("create");renderCreate();
- setTimeout(()=>{const el=document.getElementById("f_fb");if(el){el.value=DATA.quickFixes[i].feedback;el.focus();}},100);}
-function renderMat(){document.getElementById("midea").innerHTML=materials.ideas.length
- ?materials.ideas.map((x,i)=>'<div class="kv"><span>'+esc(x.t)+'<br><span class="sm">'+esc(x.at)+'</span></span><span>'
-  +'<button class="btn s" onclick="idea2proj('+i+')">转为项目</button> '
-  +'<button class="btn dg" onclick="delIdea('+i+')">删</button></span></div>').join("")
- :'<div class="sm">空</div>';}
-function addIdea(){const v=document.getElementById("ideain").value.trim();if(!v)return;
- materials.ideas.unshift({t:v,at:now()});setMeta("materials",materials);
- document.getElementById("ideain").value="";renderMat();toast("已存入");}
-function delIdea(i){materials.ideas.splice(i,1);setMeta("materials",materials);renderMat();}
-function idea2proj(i){const x=materials.ideas[i];
- const p={id:uid(),title:x.t.slice(0,16),genre:"都市",target:20000,ending:"HE",status:"草稿",createdAt:now(),
-  updatedAt:now(),idea:{raw:x.t,assess:null,final:x.t},outlines:[],selOutline:null,mss:[],diags:[],versions:[],constraints:[]};
- projects.unshift(p);curId=p.id;save(p);setMeta("lastId",p.id);renderProjects();switchTab("create");toast("已转为项目");}
+ const msg=applyResult(kind,txt);closeSheet();renderAll();toast(msg);}
 
 /* ===== AI ===== */
 function getCfg(){return JSON.parse(localStorage.getItem(AI_KEY)||"null");}
@@ -485,79 +724,104 @@ async function callAPI(c,messages,onDelta,maxTok){
  try{resp=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+c.key},
   body:JSON.stringify({model:c.model,messages,stream:!!onDelta,max_tokens:maxTok||c.max||32768})});}
  catch(e){throw new Error("CORS/网络失败："+e.message+"。浏览器直连需接口通过跨域预检，可将 Base URL 指向你自建的转发服务。");}
- if(!resp.ok){let m=""+resp.status;
-  try{const j=await resp.json();if(j.error&&j.error.message)m+=" "+j.error.message;}catch(e){}
+ if(!resp.ok){let m=""+resp.status;try{const j=await resp.json();if(j.error&&j.error.message)m+=" "+j.error.message;}catch(e){}
   if(resp.status===401)throw new Error("401 Key 无效或已过期");
   if(resp.status===429)throw new Error("429 触发限流，请稍后再试");
   throw new Error(m);}
  if(!onDelta){const j=await resp.json();return ((j.choices&&j.choices[0]&&j.choices[0].message)||{}).content||"";}
  const rd=resp.body.getReader(),dec=new TextDecoder();let out="";
- for(;;){const {done,value}=await rd.read();if(done)break;
-  const chunk=dec.decode(value,{stream:true});
-  chunk.split("\n").forEach(line=>{line=line.trim();
-   if(!line.startsWith("data:"))return;const p=line.slice(5).trim();
-   if(p==="[DONE]")return;
-   try{const j=JSON.parse(p);const d=j.choices&&j.choices[0]&&j.choices[0].delta;
+ for(;;){const {done,value}=await rd.read();if(done)break;const chunk=dec.decode(value,{stream:true});
+  chunk.split("\n").forEach(line=>{line=line.trim();if(!line.startsWith("data:"))return;const p=line.slice(5).trim();
+   if(p==="[DONE]")return;try{const j=JSON.parse(p);const d=j.choices&&j.choices[0]&&j.choices[0].delta;
     if(d&&d.content){out+=d.content;onDelta(out);}}catch(e){}});}
  return out;}
-async function testAI(){const c=getCfg();
- if(!c||!c.key){document.getElementById("aitest").textContent="请先填 Key 并保存";return;}
+async function testAI(){const c=getCfg();if(!c||!c.key){document.getElementById("aitest").textContent="请先填 Key 并保存";return;}
  document.getElementById("aitest").textContent="测试中…";
  try{const r=await callAPI(c,[{role:"user",content:"回复两个字：正常"}],null,200);
   document.getElementById("aitest").textContent="✅ 连接成功："+String(r).slice(0,40);}
  catch(e){document.getElementById("aitest").textContent="❌ "+e.message;}}
-const MODKIND=["assess","outline","ms","diag"];
+const GENTITLE={assess:"脑洞评估",outline:"方案发散",body:"正文生成",diag:"诊断优化"};
 async function gen(m){const p=cp();const c=getCfg();
  if(!c||!c.key){toast("请先在「设置」里配置并保存 API Key");switchTab("set");return;}
- let prompt="";
- if(m===0)prompt=T[0](p);
- else if(m===1)prompt=T[1](p);
- else if(m===2){const st=(document.getElementById("f_style")||{}).value||"A";prompt=T[2](p,st);}
- else if(m===3){const fb=(document.getElementById("f_fb")||{}).value.trim();
-  if(!fb){toast("请先填写反馈内容");return;}prompt=T[3](p,fb);}
- else{toast("版本管理无需调用模型");return;}
- showSheet(STEPS[m]+" · 生成中",
+ let prompt="";if(m==="assess")prompt=T.assess(p);else if(m==="outline")prompt=T.outline(p);
+ else if(m==="body"){const st=(document.getElementById("f_style")||{}).value||"A";prompt=T.body(p,st);}
+ else if(m==="diag"){const fb=(document.getElementById("f_fb")||{}).value.trim();if(!fb){toast("请先填写反馈内容");return;}prompt=T.diag(p,fb);}
+ else{toast("该模块无需调用模型");return;}
+ showSheet(GENTITLE[m]+" · 生成中",
   '<div class="sm">模型 '+esc(c.model)+' · 流式输出中，请稍候…</div>'
   +'<div class="ev" id="gout" style="margin-top:8px;max-height:46vh;min-height:120px"></div>'
   +'<div class="acts"><button class="btn dg" onclick="genStop=1">停止</button>'
   +'<button class="btn" onclick="closeSheet()">关闭</button>'
-  +'<button class="btn p" id="gsv" style="display:none" onclick="saveGen('+m+')">保存到本项目</button></div>');
+  +'<button class="btn p" id="gsv" style="display:none" onclick="saveGen(\''+m+'\')">保存到本项目</button></div>');
  const out=document.getElementById("gout");window.genStop=0;window.genTxt="";
  try{await callAPI(c,[{role:"system",content:"你是知乎盐选短篇小说创作工作台，严格按用户要求的格式输出，使用中文。"},
-   {role:"user",content:prompt}],t=>{if(window.genStop)throw new Error("STOP");
-    window.genTxt=t;out.textContent=t;out.scrollTop=out.scrollHeight;},c.max||32768);
+   {role:"user",content:prompt}],t=>{if(window.genStop)throw new Error("STOP");window.genTxt=t;out.textContent=t;out.scrollTop=out.scrollHeight;},c.max||32768);
   document.getElementById("gsv").style.display="inline-block";toast("生成完成");}
  catch(e){if(e.message==="STOP"){toast("已停止");document.getElementById("gsv").style.display="inline-block";}
   else out.textContent="❌ "+e.message;}}
 function saveGen(m){const txt=window.genTxt||"";if(!txt.trim()){toast("没有内容");return;}
- const msg=applyResult(MODKIND[m],txt);closeSheet();renderCreate();renderProjects();toast(msg);}
+ const msg=applyResult(m,txt);closeSheet();renderAll();toast(msg);}
 
 /* ===== 备份 ===== */
 function exportAll(){const data={v:1,exportedAt:now(),projects,materials};
  dl("小说工作台备份-"+now().slice(0,10)+".json",JSON.stringify(data,null,1));toast("已导出");}
-function importAll(inp){const f=inp.files[0];if(!f)return;
- const r=new FileReader();
- r.onload=async()=>{try{const d=JSON.parse(r.result);
-  if(!d.projects)throw new Error("格式不对");
+function importAll(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=async()=>{try{const d=JSON.parse(r.result);if(!d.projects)throw new Error("格式不对");
   if(!confirm("导入将覆盖当前所有项目，确定？"))return;
   for(const p of d.projects)await put(p);
   if(d.materials){materials=d.materials;await setMeta("materials",materials);}
-  projects=await getAll();renderProjects();renderMat();updMeta();toast("导入成功");}
-  catch(e){toast("导入失败："+e.message);}inp.value="";};
+  projects=await getAll();renderAll();toast("导入成功");}catch(e){toast("导入失败："+e.message);}inp.value="";};
  r.readAsText(f);}
 
 /* ===== 存储 ===== */
-async function renderStor(){
- let est="—";
+async function renderStor(){let est="—";
  try{if(navigator.storage&&navigator.storage.estimate){const e=await navigator.storage.estimate();
   est=(e.usage?(e.usage/1048576).toFixed(2)+" MB":"—")+" / 配额 "+(e.quota?(e.quota/1048576).toFixed(0)+" MB":"—");}}catch(e){}
  const total=projects.reduce((s,p)=>s+p.mss.reduce((a,m)=>a+(m.words||0),0),0);
- document.getElementById("stor").innerHTML=
-  '<div class="kv"><span>已用空间</span><b>'+est+'</b></div>'
+ const el=document.getElementById("stor");if(!el)return;
+ el.innerHTML='<div class="kv"><span>已用空间</span><b>'+est+'</b></div>'
   +'<div class="kv"><span>项目数</span><b>'+projects.length+'</b></div>'
   +'<div class="kv"><span>正文字数合计</span><b>'+total+'</b></div>'
-  +'<div class="kv"><span>脑洞池</span><b>'+materials.ideas.length+'</b></div>'
+  +'<div class="kv"><span>素材收藏</span><b>'+materials.favs.length+'</b></div>'
   +'<div class="sm" style="margin-top:8px">数据存在本机浏览器（IndexedDB）。清理浏览器数据会丢失，请定期用「导出备份」保存。</div>';}
+
+/* ===== 素材库种子（data.json 缺省时回退） ===== */
+const SEED={
+ bao:[
+  {title:"《婆婆的存折》",genre:"原生家庭",boom:"重男轻女家庭里，女儿发现母亲偷偷给弟弟攒了首付，自己却被要求补贴家用",
+   hook:"我妈把存折拍在桌上说『这钱你弟结婚要用』的时候，我才知道她记了整整十二年。",
+   cut:"女主决定不再当提款机、搬出家的那一刻",twist:"存折里最后一笔钱，是女主小时候自己存的压岁钱被母亲代管后‘蒸发’的",
+   good:"把抽象的『重男轻女』落到一张存折的具体数字上，读者瞬间共情",warn:"别把婆婆写成脸谱化恶人，给母亲一个『她也是受害者』的动机"},
+  {title:"《凌晨三点的微信》",genre:"婚恋",boom:"发现伴侣深夜和异性聊天的细节，逐步拼出背叛证据",
+   hook:"他手机亮的那一下，我看到了一个不是我的备注名，时间是凌晨三点十二分。",
+   cut:"女主把聊天记录截图设为屏保，当面问他的那一幕",twist:"那个备注名其实是他妈——但真正出轨的是他最好的兄弟",
+   good:"微信红点、截图、时间戳，强真实感",warn:"避免悬疑过度，知乎短篇要情绪落点而非推理小说"}
+ ],
+ idea:[
+  {t:"外卖员救了跳桥的上市公司女总裁，却被全网说是炒作",genre:"都市",conflict:"阶级差+舆论反转",end:"HE",risk:"救人是套路，需强动机",fix:"让外卖员救人的理由和女主童年的某个秘密挂钩"},
+  {t:"妻子连续三年给‘已故’丈夫发微信，对方居然回了",genre:"悬疑复仇",conflict:"生死谜团+慢热复仇",end:"BE",risk:"逻辑易崩，需埋时间线伏笔",fix:"前期用转账记录、医院单据侧面证明丈夫‘假死’"},
+  {t:"高考前夜，我妈把我的志愿表改成她同事儿子的名字",genre:"原生家庭",conflict:"控制欲 vs 自我",end:"开放式",risk:"情绪易假，需具体对话",fix:"用一句妈妈的口头禅贯穿全文作为情绪锚点"}
+ ],
+ style:[
+  {name:"A 知乎原生爆款",sample:"事情是这样的。我今年二十八，单身，在一家不大不小的公司做运营。\n昨天晚上十一点，我妈又打来电话，开口第一句还是那句：『你看看隔壁小雨，孩子都上幼儿园了。』\n我没忍住，回了一句：『妈，你要是喜欢小雨，认她当闺女呗。』\n电话那头安静了三秒。就是这三秒，让我突然意识到，我和我妈之间，早就没什么可说的了。",
+   rules:["第一人称，像在知乎答主评论区讲故事","开篇直接抛一个冲击事实/冲突场景","短句为主，心理活动直白不绕","每400字安排一个小矛盾或新信息","少用华丽辞藻，像普通人说话"]},
+  {name:"B 双规克制文笔",sample:"她把杯子放在桌角，没碰。\n窗外的雨停了，玻璃上有一道没擦干净的水痕，弯弯的，像谁哭过又抹掉。\n他起身去倒水，背影在灯光里拉得很长。没有人说话。\n水开了，咕噜一声。",
+   rules:["砍掉大段内心独白，用动作和环境侧面写情绪","对话简短、留白，不解释","冷感叙事，情绪藏在细节里不呐喊","适合BE、暗黑、现实向","多用感官细节（声音、光线、温度）"]},
+  {name:"C 高密度爽感打脸",sample:"王总把合同甩到我脸上：『就你，也配跟我谈条件？』\n我捡起合同，慢悠悠翻开最后一页，指了指那个红章：『王总，您公司欠我这家的钱，好像不止这个数。』\n他脸色变了。旁边一直不说话的李律师，第一次抬起了头。",
+   rules:["每300字一次冲突或反转","反派行为清晰、可恨","主角反击节奏快，不憋屈","情绪张力拉满，节奏紧凑不灌水","打脸要有铺垫，不能凭空翻盘"]}
+ ],
+ boom:{
+  "人物反差爆点":["洁癖法医","理性道士","表面温柔实则复仇女主","社恐自杀干预热线员","童年被拐的刑警","全职主妇曾是黑客"],
+  "社会情绪爆点":["原生家庭重男轻女","婚内背叛","职场背锅","被闺蜜背叛","35岁被优化","彩礼与扶弟魔"],
+  "剧情爆点":["重生复仇","当众揭穿","身份反转","虚假幸福破碎","证据打脸","无意间录下关键对话"]
+ },
+ hook:{
+  "提问式开篇":["如果你妈把存了十二年的存折，最终给了你弟，你会怎么办？","有没有一种可能，你以为的恩爱夫妻，其实早就各玩各的？"],
+  "暴击事实开篇":["我妈把存折拍在桌上说『这钱你弟结婚要用』的时候，我才知道她记了整整十二年。","他手机亮的那一下，我看到一个不是我的备注名，时间凌晨三点十二分。"],
+  "场景细节开篇":["她把杯子放在桌角，没碰。窗外的雨停了，玻璃上有一道没擦干净的水痕。","搬家时我在旧床垫里摸出一张B超单，日期是我爸走后的第三个月。"],
+  "反转前置开篇":["所有人都说我妈偏心我弟，直到葬礼上律师念出遗嘱，我才发现她把房子留给了我。","他当着全公司的面骂我是废物，没人知道，那份并购方案，署名是他，底稿是我。"]
+ }
+};
 
 /* ===== 初始化 ===== */
 (function init(){
