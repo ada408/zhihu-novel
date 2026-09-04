@@ -652,6 +652,7 @@ function renderSet(){
   +'<label>Base URL</label><input type="text" id="aurl" placeholder="https://token.sensenova.cn/v1">'
   +'<label>API Key（仅存本机；若用密钥托管转发可留空）</label><input type="password" id="akey" placeholder="sk-…">'
   +'<label>转发共享密钥 Relay Secret（可选，配合自建转发防滥用）</label><input type="text" id="arel" placeholder="与 Worker 的 RELAY_SECRET 一致">'
+  +'<div class="sm" style="margin:4px 0 8px">🔐 密钥托管：若 Worker 已设 SEN_NOVA_KEY，上方 API Key 留空即可，密钥永不进浏览器，最安全。</div>'
   +'<label>模型 ID（区分大小写，全小写）</label><select id="amodel"></select>'
   +'<label>最大输出 tokens</label><input type="number" id="amax" value="32768" min="512" max="65536">'
   +'<div class="acts"><button class="btn p" onclick="saveAI()">保存配置</button>'
