@@ -254,22 +254,49 @@ const T={
 6.设置：自定义参数、导出全部工作产物、清空缓存
 
 用户接下来指令：{{用户输入}}`,
-/* 提示词6 脑洞质量评估（前置） */
+/* 提示词-1 需求澄清（新增）：先生成问题，用户回答后再生成方案 */
+clarify:p=>`【角色】知乎盐选短篇小说策划助理
+【任务】基于用户给出的原始脑洞，提出3-5个关键澄清问题，帮助后续生成更精准的故事方案。
+
+【已知信息】
+题材：${p.genre}
+期望结局：${p.ending}
+目标字数：${p.target}
+原始脑洞：${(p.idea.raw||"")}
+
+【输出要求】
+1. 先简要复述你理解的用户脑洞（1-2句话），确认理解无误。
+2. 提出3-5个关键问题，每个问题直接帮助确定：主角身份/动机、核心冲突、关键反转、情感落点、必须出现的场景或道具。
+3. 问题要具体，避免泛泛而谈。例如不要问"主角性格如何"，要问"主角发现真相后，选择隐忍还是立刻反击？为什么？"
+4. 最后请用户按编号回答，并说明回答后会生成A/B/C三套差异化方案。`,
+/* 提示词0.5 评估（基于原始脑洞+澄清回答） */
 assess:p=>`【知乎短篇脑洞评估】
 用户脑洞：${(p.idea.final||p.idea.raw||"")}
 题材：${p.genre}
+期望结局：${p.ending}
+目标字数：${p.target}
+用户补充回答（澄清信息）：${(p.idea.qa||"无")}
 
 输出：
 1.脑洞吸引力评分（0-10分）
 2.优势点：哪些元素适配知乎爆款流量
 3.风险短板：哪些地方容易写崩（逻辑坑、俗套、难落地、容易AI化）
-4.优化建议：给2条脑洞改良方向，可以让故事冲突更强，更适合知乎短篇。`,
+4.优化建议：给2条脑洞改良方向，可以让故事冲突更强，更适合知乎短篇。
+5.定稿脑洞：综合以上，给出一个更具体、可执行的定稿版脑洞（200字以内）。`,
 /* 提示词1 脑洞解析与多方案大纲生成 */
 outline:p=>`【角色】知乎盐选短篇小说专业策划，熟悉知乎短篇爆款底层逻辑，拒绝AI悬浮套路，优先制造强冲突、强钩子。
-【输入】用户原始脑洞：${(p.idea.final||p.idea.raw||"")}；期望结局：${p.ending}；题材：${p.genre}；目标字数：${p.target}
+【输入】
+用户原始脑洞：${(p.idea.final||p.idea.raw||"")}
+期望结局：${p.ending}
+题材：${p.genre}
+目标字数：${p.target}
+用户补充回答（澄清信息）：${(p.idea.qa||"无")}
 
 【强制规则】
-1. 输出2套完全差异化的故事方案，方案A偏向强冲突爽向，方案B偏向氛围感暗黑现实向，两套不要故事走向重复。
+1. 输出3套完全差异化的故事方案，分别命名为方案A、方案B、方案C：
+   - 方案A：强冲突爽向，节奏快，打脸/反转密集
+   - 方案B：氛围感暗黑现实向，情绪压抑后释放，适合BE或开放式
+   - 方案C：意外角度/反套路向，避开常见写法，制造新鲜感和记忆点
 2. 每套方案严格输出下面结构，不要冗余废话：
 # 方案X 【方案名称】
 ## 核心看点（3条，回答读者为什么愿意点开追读）
@@ -291,7 +318,7 @@ outline:p=>`【角色】知乎盐选短篇小说专业策划，熟悉知乎短�
 ## 开篇钩子（200字内，知乎提问式/第一人称暴击开篇，直接抓住读者）
 
 3.禁止过度狗血悬浮，人物行为必须有动机支撑；所有反转不能凭空天降。
-4.输出完成后，询问用户选择方案A还是方案B，或者需要调整脑洞重新生成，也可以询问是否前往素材库调取灵感。${cons(p)}`,
+4.输出完成后，明确写出："请用户选择方案A/B/C，或提出修改意见后重新生成。"${cons(p)}`,
 /* 提示词2 多风格正文生成 */
 body:(p,s)=>{const d={A:"A知乎原生爆款：第一人称优先；开篇抛出冲击事实；多用短句；心理活动直白；每400字制造小矛盾；模拟真实知乎答主讲故事口吻；少华丽辞藻。",
  B:"B双规克制文笔：尽量减少大段内心独白；大量使用动作描写、环境细节侧面体现情绪；对话简短留白；冷感叙事；情绪藏在细节，不直白呐喊；适合BE暗黑故事。",
@@ -299,6 +326,8 @@ body:(p,s)=>{const d={A:"A知乎原生爆款：第一人称优先；开篇抛出
  const o=p.outlines.find(x=>x.code===p.selOutline);
  return `【角色】知乎短篇小说写手，支持切换文笔风格，杜绝AI书面腔，对话贴合人物身份。
 已选定故事方案：\n${o?fmtOutline(o):"（未选定方案）"}
+原始脑洞：${(p.idea.final||p.idea.raw||"")}
+用户补充回答（澄清信息）：${(p.idea.qa||"无")}
 目标总字数：${p.target}
 选择文笔风格：${d}
 
@@ -307,6 +336,31 @@ body:(p,s)=>{const d={A:"A知乎原生爆款：第一人称优先；开篇抛出
 2. 禁止模板化AI套话，拒绝"我的心猛地一痛"这类廉价抒情。
 3. 分段细碎，适配手机阅读，大段长句必须拆分。
 4. 输出完整小说正文，完成后输出简短自评：优点、潜在风险点（逻辑薄弱地方、容易AI感的地方）。${cons(p)}`;},
+/* 提示词2.5 正文自检（新增）：生成正文后自动检查 */
+selfCheck:p=>{const ms=p.mss.length?p.mss[p.mss.length-1]:null;
+ return `【角色】知乎短篇小说质检编辑
+【任务】对以下正文进行逐条检查，指出具体问题并给出修改建议。
+
+原始脑洞：${(p.idea.final||p.idea.raw||"")}
+选定方案：${p.selOutline||"未选定"}
+目标字数：${p.target}
+
+待检正文：
+${ms?ms.text:"（暂无正文）"}
+
+请按以下维度输出：
+1. 人设一致性：主角行为是否符合设定卡动机
+2. 逻辑硬伤：时间线、因果、证据链是否有漏洞
+3. AI腔检测：找出3处最像AI写的句子或表达
+4. 节奏检查：开头500字是否有强钩子，付费卡点是否清晰
+5. 情绪真实度：是否有廉价抒情、情绪转折是否突兀
+6. 修改优先级清单：按重要程度排序，给出具体修改位置和建议
+
+输出格式：
+## 总体评分（0-10分）
+## 主要问题
+## 逐条修改建议
+## 推荐修改顺序`;},
 /* 提示词3 素材库生成&检索 */
 mat:(genre,act)=>`【角色】知乎短篇爆款素材库解析专家
 操作指令：${act||"刷新爆款库"}
@@ -389,44 +443,63 @@ function renderBrain(){
  const box=document.getElementById("brainBody");
  if(!cp()){box.innerHTML='<div class="empty">请先在上方新建或选择一部小说</div>';return;}
  const p=cp();
- let h='<div class="blk"><h3>① 脑洞评估 <span class="sub">· 提示词6 脑洞质量评估</span></h3>'
+ let h='<div class="blk"><h3>📝 项目基本信息（修改后点保存）</h3>'
   +'<label>题材</label>'+genreChips()
   +'<label>期望结局</label>'+endingChips()
   +'<label>目标字数</label><input type="number" id="f_target" value="'+p.target+'">'
-  +'<label>原始脑洞</label><textarea id="f_raw" placeholder="把你的脑洞写在这里…">'+esc(p.idea.raw||"")+'</textarea>'
-  +'<div class="acts"><button class="btn p" onclick="saveBrain()">保存</button>'
-  +pb2("ptAssess","复制评估提示词",T.assess(p))
-  +'<button class="btn s" onclick="gen(\'assess\')">🤖 直接生成</button>'
-  +'<button class="btn s" onclick="pasteBox(\'assess\')">📥 粘贴结果</button></div></div>';
- if(p.idea.assess){h+='<div class="blk"><h3>评估结果</h3><div class="sm">评分：<b>'+esc(p.idea.assess.score||"—")+'</b> / 10</div>'
-  +'<div class="ev" style="margin-top:6px">'+esc(p.idea.assess.text||"")+'</div>'
-  +'<label>定稿脑洞（按建议微调后）</label><textarea id="f_final">'+esc(p.idea.final||"")+'</textarea>'
-  +'<div class="acts"><button class="btn p" onclick="saveFinalBrain()">保存定稿 → 生成方案</button></div></div>';}
- h+='<div class="blk"><h3>② 故事方案 <span class="sub">· 提示词1 多方案大纲</span></h3>'
-  +'<div class="sm">脑洞：'+esc((p.idea.final||p.idea.raw||"").slice(0,60))+((p.idea.final||p.idea.raw||"").length>60?"…":"")+'</div>'
-  +'<div class="acts">'+pb2("ptOutline","复制方案提示词",T.outline(p))
-  +'<button class="btn s" onclick="gen(\'outline\')">🤖 直接生成</button>'
-  +'<button class="btn s" onclick="pasteBox(\'outline\')">📥 粘贴方案</button></div>';
- h+=p.outlines.map((o,i)=>'<div class="card"><div style="display:flex;justify-content:space-between;align-items:center">'
-  +'<b>方案 '+o.code+' '+esc(o.name||"")+'</b>'
-  +(p.selOutline===o.code?'<span class="b ok">已选定</span>':'<button class="btn s" onclick="selOut(\''+o.code+'\')">选定</button>')+'</div>'
-  +'<div class="sm" style="margin-top:6px">核心看点</div><div>'+(o.points||[]).map(esc).join("<br>")+"</div>"
-  +'<div class="sm" style="margin-top:6px">大纲</div><div class="ev">'+esc(o.outline||"—")+'</div>'
-  +'<div class="sm" style="margin-top:6px">人物卡</div><div class="ev">'+esc(o.chars||"—")+'</div>'
-  +'<div class="sm" style="margin-top:6px">梗概</div><div class="ev">'+esc(o.synopsis||"—")+'</div>'
-  +'<div class="sm" style="margin-top:6px">开篇钩子</div><div class="ev">'+esc(o.hook||"—")+'</div>'
-  +'<div class="acts"><button class="btn dg" onclick="delOut('+i+')">删除</button></div></div>').join("");
- if(p.selOutline)h+='<div class="acts"><button class="btn p" onclick="switchTab(\'body\')">下一步：正文生成 →</button></div>';
+  +'<label>原始脑洞描述</label><textarea id="f_raw" placeholder="一句话把你想写的故事讲清楚：主角是谁？遇到什么冲突？核心爽点/泪点是什么？">'+esc(p.idea.raw||"")+'</textarea>'
+  +'<div class="acts"><button class="btn p" onclick="saveBrain()">💾 保存当前输入</button></div></div>';
+
+ /* Step 1: 需求澄清 */
+ h+='<div class="blk"><h3>① 需求澄清 <span class="sub">· 让AI先问你问题</span></h3>'
+  +'<div class="sm">先把上方脑洞保存，然后复制这段提示词给 WorkBuddy。AI 会复述理解、提出3-5个关键问题。你回答后，把问答一起贴回「用户补充回答」框。</div>'
+  +'<div class="acts">'+pb2("ptClarify","复制需求澄清提示词",T.clarify(p))
+  +'<button class="btn s" onclick="genWithSave(\'clarify\')">🤖 直接生成问题</button></div>'
+  +'<label>用户补充回答（把 WorkBuddy 的问题和你的回答贴在这里）</label>'
+  +'<textarea id="f_qa" placeholder="例：\n1. 主角发现真相后选择隐忍，因为…\n2. 反派是主角的继母，她的动机是…\n3. 关键反转道具是一封旧信…">'+esc(p.idea.qa||"")+'</textarea>'
+  +'<div class="acts"><button class="btn p" onclick="saveQA()">💾 保存澄清回答</button></div></div>';
+
+ /* Step 2: 脑洞评估 */
+ h+='<div class="blk"><h3>② 脑洞评估 <span class="sub">· 基于原始脑洞+澄清回答</span></h3>'
+  +'<div class="acts">'+pb2("ptAssess","复制评估提示词",T.assess(p))
+  +'<button class="btn s" onclick="genWithSave(\'assess\')">🤖 直接生成评估</button>'
+  +'<button class="btn s" onclick="pasteBox(\'assess\')">📥 粘贴评估结果</button></div>';
+ if(p.idea.assess){h+='<div class="card"><div class="sm">评分：<b style="font-size:18px">'+esc(p.idea.assess.score||"—")+'</b> / 10</div>'
+  +'<div class="ev" style="margin-top:6px;white-space:pre-wrap">'+esc(p.idea.assess.text||"")+'</div></div>';}
+ h+='<label>定稿脑洞（综合评估建议，写出最终版）</label><textarea id="f_final" placeholder="在这里写下确定要执行的脑洞版本。可以复制评估里的「定稿脑洞」再微调。">'+esc(p.idea.final||"")+'</textarea>'
+  +'<div class="acts"><button class="btn p" onclick="saveFinalBrain()">💾 保存定稿脑洞</button></div></div>';
+
+ /* Step 3: 多方案生成 */
+ h+='<div class="blk"><h3>③ 生成多套故事方案 <span class="sub">· A/B/C 三选一</span></h3>'
+  +'<div class="sm">基于「原始脑洞 + 澄清回答 + 定稿脑洞」生成3套差异化方案（爽向/暗黑现实/反套路）。</div>'
+  +'<div class="acts">'+pb2("ptOutline","复制方案生成提示词",T.outline(p))
+  +'<button class="btn s" onclick="genWithSave(\'outline\')">🤖 直接生成方案</button>'
+  +'<button class="btn s" onclick="pasteBox(\'outline\')">📥 粘贴方案结果</button></div>';
+ if(p.outlines.length){
+  h+='<div class="sm" style="margin-top:8px">已生成 '+p.outlines.length+' 套方案，点击「选定」确认使用哪一套：</div>';
+  h+=p.outlines.map((o,i)=>'<div class="card"><div style="display:flex;justify-content:space-between;align-items:center">'
+   +'<b>方案 '+esc(o.code||"?")+' '+esc(o.name||"")+'</b>'
+   +(p.selOutline===o.code?'<span class="b ok">✅ 已选定</span>':'<button class="btn p" onclick="selOut(\''+o.code+'\')">选定此方案</button>')+'</div>'
+   +'<div class="sm" style="margin-top:6px">核心看点</div><div>'+(o.points||[]).map(esc).join("<br>")+"</div>"
+   +'<div class="sm" style="margin-top:6px">大纲</div><div class="ev">'+esc(o.outline||"—")+'</div>'
+   +'<div class="sm" style="margin-top:6px">人物卡</div><div class="ev">'+esc(o.chars||"—")+'</div>'
+   +'<div class="sm" style="margin-top:6px">梗概</div><div class="ev">'+esc(o.synopsis||"—")+'</div>'
+   +'<div class="sm" style="margin-top:6px">开篇钩子</div><div class="ev">'+esc(o.hook||"—")+'</div>'
+   +'<div class="acts"><button class="btn dg" onclick="delOut('+i+')">删除此方案</button></div></div>').join("");}
+ if(p.selOutline)h+='<div class="acts" style="margin-top:12px"><button class="btn p" onclick="switchTab(\'body\')">下一步：生成正文 →</button></div>';
  box.innerHTML=h;
  markChips();
 }
 function pb2(id,label,pstr){return promptBlock(id,label,pstr);}
 function markChips(){const p=cp();if(!p)return;
  const gc=document.getElementById("gchips");if(gc)gc.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.textContent===p.genre));}
-function saveBrain(){const p=cp();p.target=+document.getElementById("f_target").value||20000;
- p.idea.raw=document.getElementById("f_raw").value;save(p);renderBrain();toast("已保存");updMeta();}
-function saveFinalBrain(){const p=cp();p.idea.final=document.getElementById("f_final").value;save(p);
- if(!p.outlines.length)toast("定稿已保存，可生成方案");else renderBrain();}
+function readBrainForm(){const p=cp();p.target=+document.getElementById("f_target").value||20000;
+ p.idea.raw=(document.getElementById("f_raw")||{}).value||p.idea.raw||"";
+ return p;}
+function saveBrain(){readBrainForm();save(cp());renderBrain();toast("已保存");updMeta();}
+function saveQA(){const p=cp();p.idea.qa=(document.getElementById("f_qa")||{}).value||"";save(p);renderBrain();toast("澄清回答已保存");}
+function saveFinalBrain(){const p=cp();p.idea.final=(document.getElementById("f_final")||{}).value||"";save(p);renderBrain();toast("定稿脑洞已保存");}
+function genWithSave(m){readBrainForm();save(cp());gen(m);}
 function selOut(c){const p=cp();p.selOutline=c;save(p);renderBrain();toast("已选定方案 "+c);}
 function delOut(i){const p=cp();p.outlines.splice(i,1);
  if(p.selOutline&&!p.outlines.find(o=>o.code===p.selOutline))p.selOutline=null;save(p);renderBrain();}
@@ -434,15 +507,16 @@ function delOut(i){const p=cp();p.outlines.splice(i,1);
 /* ===== ② 正文生成 ===== */
 function renderBody(){
  const box=document.getElementById("bodyBody");
- if(!cp()){box.innerHTML='<div class="empty">请先在「脑洞」里新建或选择一部小说</div>';return;}
+ if(!cp()){box.innerHTML='<div class="empty">请先在上方新建或选择一部小说</div>';return;}
  const p=cp();
- if(!p.selOutline){box.innerHTML='<div class="empty">请先在「脑洞 → ② 故事方案」里选定方案 A 或 B</div>';return;}
- let h='<div class="blk"><h3>③ 正文生成 <span class="sub">· 提示词2 多风格正文</span></h3>'
+ if(!p.selOutline){box.innerHTML='<div class="empty">请先在「脑洞 → ③ 生成多套故事方案」里选定 A/B/C 其中一套</div>';return;}
+ const sel=p.outlines.find(x=>x.code===p.selOutline)||{};
+ let h='<div class="blk"><h3>④ 正文生成 <span class="sub">· 基于已选方案：'+esc(sel.code||"?")+' '+esc(sel.name||"")+'</span></h3>'
   +'<label>文笔风格</label><select id="f_style">'
   +'<option value="A">A — 知乎原生爆款</option><option value="B">B — 双规克制文笔</option><option value="C">C — 高密度爽感打脸</option></select>'
   +'<div class="acts"><button class="btn p" onclick="syncStyle()">生成提示词</button>'
   +pb2("ptBody","复制正文提示词",T.body(p,"A"))
-  +'<button class="btn s" onclick="gen(\'body\')">🤖 直接生成</button>'
+  +'<button class="btn s" onclick="genBodyWithSave()">🤖 直接生成</button>'
   +'<button class="btn s" onclick="pasteBox(\'ms\')">📥 粘贴正文</button></div></div>';
  if(p.mss.length){h+='<div class="blk"><h3>已有正文（'+p.mss.length+' 稿）</h3>'
   +p.mss.map((m,i)=>'<div class="kv"><span>风格 '+m.style+' · '+m.words+' 字 · '+esc(m.at)+'</span><span>'
@@ -452,13 +526,22 @@ function renderBody(){
   h+='<div class="blk"><h3>当前正文编辑</h3><textarea id="edms" style="min-height:280px">'+esc(ms.text)+'</textarea>'
   +'<div class="acts"><button class="btn p" onclick="saveMs()">保存修改</button>'
   +'<button class="btn" onclick="expMd()">导出 Markdown</button></div>'
-  +'<div class="sm" id="wc">'+ms.words+' 字</div></div>';}
+  +'<div class="sm" id="wc">'+ms.words+' 字</div></div>';
+  /* 正文自检 */
+  h+='<div class="blk"><h3>⑤ 正文自检 <span class="sub">· 生成后自动检查质量</span></h3>'
+   +'<div class="acts">'+pb2("ptSelfCheck","复制自检提示词",T.selfCheck(p))
+   +'<button class="btn s" onclick="gen(\'selfCheck\')">🤖 直接生成自检</button>'
+   +'<button class="btn s" onclick="switchTab(\'diag\')">去诊断优化 →</button></div>';
+  if(p.selfCheck){h+='<div class="card"><div class="sm">评分：<b>'+esc(p.selfCheck.score||"—")+'</b> / 10</div>'
+   +'<div class="ev" style="margin-top:6px;white-space:pre-wrap">'+esc(p.selfCheck.text||"")+'</div></div>';}
+  h+='</div>';}
  box.innerHTML=h;
  const ed=document.getElementById("edms");if(ed)ed.oninput=()=>document.getElementById("wc").textContent=cw(ed.value)+" 字";
 }
 function syncStyle(){const s=document.getElementById("f_style").value;
  document.getElementById("ptBody").value=T.body(cp(),s);document.getElementById("ptBody").style.display="block";
  toast("提示词已按风格 "+s+" 生成，点「复制提示词」");}
+function genBodyWithSave(){syncStyle();gen("body");}
 function saveMs(){const p=cp(),t=document.getElementById("edms").value,m=p.mss[p.mss.length-1];
  if(!m){p.mss.push({style:"A",text:t,words:cw(t),at:now()});}else{m.text=t;m.words=cw(t);m.at=now();}
  save(p);renderProjects();updMeta();toast("已保存");}
@@ -688,11 +771,17 @@ function clearCache(){if(!confirm("确定清空本机所有小说、素材与配
 /* ===== 解析与保存 ===== */
 function sec(b,n){const re=new RegExp("##\\s*"+n+"[\\s\\S]*?\\n([\\s\\S]*?)(?=\\n##\\s|$)");const m=b.match(re);return m?m[1].trim():"";}
 function applyResult(kind,txt){const p=cp();let msg="";
- if(kind==="assess"){const m=txt.match(/(\d{1,2}(?:\.\d)?)\s*\/?\s*10/);
-  p.idea.assess={score:m?m[1]:"—",text:txt};if(!p.idea.final)p.idea.final=p.idea.raw;msg="评估已保存";}
+ if(kind==="clarify"){p.idea.qa=txt;msg="澄清回答已保存";}
+ else if(kind==="assess"){
+  const score=(txt.match(/脑洞吸引力评分[：:]\s*(\d{1,2}(?:\.\d)?)/)||txt.match(/(\d{1,2}(?:\.\d)?)\s*\/\s*10/)||[])[1];
+  const finalMatch=txt.match(/定稿脑洞[：:]\s*([\s\S]*?)(?=\n##|\n\d+\.|$)/);
+  p.idea.assess={score:score||"—",text:txt};
+  if(finalMatch&&finalMatch[1].trim().length>10)p.idea.final=finalMatch[1].trim();
+  else if(!p.idea.final)p.idea.final=p.idea.raw;
+  msg="评估已保存"+(finalMatch?"，已提取定稿脑洞":"");}
  else if(kind==="outline"){const blocks=txt.split(/(?=#\s*方案)/).filter(b=>b.trim());let n=0;
-  blocks.forEach(b=>{const code=(b.match(/#\s*方案\s*([AB])/)||[])[1]||String.fromCharCode(65+p.outlines.length);
-   const o={code,name:((b.match(/#\s*方案[AB]\s*【?([^】\n]*)】?/)||[])[1]||"").trim(),
+  blocks.forEach(b=>{const code=(b.match(/#\s*方案\s*([ABC])/)||[])[1]||String.fromCharCode(65+p.outlines.length);
+   const o={code,name:((b.match(/#\s*方案[ABC]\s*【?([^】\n]*)】?/)||[])[1]||"").trim(),
     points:(sec(b,"核心看点")||"").split("\n").map(s=>s.replace(/^[-•\d.\s]*/,"").trim()).filter(Boolean),
     outline:sec(b,"完整故事大纲")||sec(b,"故事大纲"),chars:sec(b,"人物设定卡")||sec(b,"人物卡"),
     synopsis:sec(b,"故事梗概"),hook:sec(b,"开篇钩子")};
@@ -700,6 +789,9 @@ function applyResult(kind,txt){const p=cp();let msg="";
   if(!p.selOutline&&p.outlines.length)p.selOutline=p.outlines[0].code;msg="解析 "+n+" 套方案";}
  else if(kind==="ms"){const st=(document.getElementById("f_style")||{}).value||"A";
   p.mss.push({style:st,text:txt,words:cw(txt),at:now()});msg="正文已保存，"+cw(txt)+" 字";}
+ else if(kind==="selfCheck"){
+  const score=(txt.match(/总体评分[（(](\d{1,2}(?:\.\d)?)/)||txt.match(/(\d{1,2}(?:\.\d)?)\s*\/\s*10/)||[])[1];
+  p.selfCheck={score:score||"—",text:txt};msg="自检结果已保存";}
  else if(kind==="diag"){const fb=(document.getElementById("f_fb")||{}).value||"";
   p.diags.push({fb,text:txt,at:now()});
   const con=(txt.match(/约束指令[：:][\s\S]*?(?=\n#|$)/)||[])[0]||"";
@@ -707,8 +799,8 @@ function applyResult(kind,txt){const p=cp();let msg="";
   if(!p.constraints)p.constraints=[];lines.forEach(l=>{if(!p.constraints.includes(l))p.constraints.push(l);});
   msg="诊断已保存"+(lines.length?"，新增 "+lines.length+" 条约束":"");}
  save(p);return msg;}
-function pasteBox(kind){const t={assess:"粘贴脑洞评估结果",outline:"粘贴方案（支持 A/B 两套）",
- ms:"粘贴正文",diag:"粘贴诊断结果（诊断/策略/修改稿/约束）"}[kind];
+function pasteBox(kind){const t={clarify:"粘贴需求澄清问答",assess:"粘贴脑洞评估结果",outline:"粘贴方案（支持 A/B/C 三套）",
+ ms:"粘贴正文",selfCheck:"粘贴自检结果",diag:"粘贴诊断结果（诊断/策略/修改稿/约束）"}[kind];
  showSheet(t,'<textarea id="psta" style="min-height:220px" placeholder="在这里粘贴 AI 的产出…"></textarea>'
   +'<div class="acts"><button class="btn p" onclick="doPaste(\''+kind+'\')">解析并保存</button>'
   +'<button class="btn" onclick="closeSheet()">取消</button></div>');}
@@ -812,11 +904,12 @@ function corsHeaders() {
   +'<div class="sm" style="margin-top:6px">⚠️ 切勿使用任何「公共 CORS 代理」，密钥会经第三方。</div>'
   +'<div class="acts"><button class="btn" onclick="closeSheet()">关闭</button></div>');
 }
-const GENTITLE={assess:"脑洞评估",outline:"方案发散",body:"正文生成",diag:"诊断优化"};
+const GENTITLE={clarify:"需求澄清",assess:"脑洞评估",outline:"方案发散",body:"正文生成",selfCheck:"正文自检",diag:"诊断优化"};
 async function gen(m){const p=cp();const c=getCfg();
- if(!c||!c.key){toast("请先在「设置」里配置并保存 API Key");switchTab("set");return;}
- let prompt="";if(m==="assess")prompt=T.assess(p);else if(m==="outline")prompt=T.outline(p);
+ if(!c||(!c.key&&!c.relay)){toast("请先在「设置」里配置并保存 API Key 或 Relay Secret");switchTab("set");return;}
+ let prompt="";if(m==="clarify")prompt=T.clarify(p);else if(m==="assess")prompt=T.assess(p);else if(m==="outline")prompt=T.outline(p);
  else if(m==="body"){const st=(document.getElementById("f_style")||{}).value||"A";prompt=T.body(p,st);}
+ else if(m==="selfCheck")prompt=T.selfCheck(p);
  else if(m==="diag"){const fb=(document.getElementById("f_fb")||{}).value.trim();if(!fb){toast("请先填写反馈内容");return;}prompt=T.diag(p,fb);}
  else{toast("该模块无需调用模型");return;}
  showSheet(GENTITLE[m]+" · 生成中",
