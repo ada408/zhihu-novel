@@ -650,13 +650,17 @@ function renderSet(){
  let h='<div class="blk"><h3>🤖 AI 接口（模式 B，可选）</h3>'
   +'<div class="warnbox">'+(api.corsNote||"微信/手机浏览器直连部分接口会因跨域预检被拦截（如日日新 OPTIONS 返回 404）。密钥只存本机，绝不写入公开文件。可将 Base URL 指向你自建的 CORS 转发。")+'</div>'
   +'<label>Base URL</label><input type="text" id="aurl" placeholder="https://token.sensenova.cn/v1">'
-  +'<label>API Key（仅存本机，绝不上传）</label><input type="password" id="akey" placeholder="sk-…">'
+  +'<label>API Key（仅存本机；若用密钥托管转发可留空）</label><input type="password" id="akey" placeholder="sk-…">'
+  +'<label>转发共享密钥 Relay Secret（可选，配合自建转发防滥用）</label><input type="text" id="arel" placeholder="与 Worker 的 RELAY_SECRET 一致">'
   +'<label>模型 ID（区分大小写，全小写）</label><select id="amodel"></select>'
   +'<label>最大输出 tokens</label><input type="number" id="amax" value="32768" min="512" max="65536">'
   +'<div class="acts"><button class="btn p" onclick="saveAI()">保存配置</button>'
   +'<button class="btn" onclick="testAI()">测试连接</button>'
   +'<button class="btn dg" onclick="clearKey()">清除 Key</button></div>'
   +'<div id="aitest" class="sm" style="margin-top:8px"></div></div>'
+  +'<div class="blk"><h3>🌐 跨域帮助（直连失败必读）</h3>'
+  +'<div class="sm">手机/微信直连被跨域预检拦截时：推荐用「复制提示词→WorkBuddy 执行→贴回」零风险模式；或自建转发（见下）。<b>切勿用公共 CORS 代理</b>。</div>'
+  +'<div class="acts" style="margin-top:8px"><button class="btn p" onclick="showCorsHelp()">查看完整方案与转发脚本</button></div></div>'
   +'<div class="blk"><h3>🔒 安全</h3><label>修改访问密码</label><input type="text" id="npw" placeholder="新密码">'
   +'<div class="acts"><button class="btn" onclick="setPwd()">保存密码</button>'
   +'<button class="btn dg" onclick="lockNow()">立即锁定</button></div></div>'
@@ -672,7 +676,7 @@ function renderSet(){
  document.getElementById("amodel").innerHTML=ms.map(m=>'<option value="'+m.id+'"'+(m.recommended?" selected":"")+'>'+esc(m.label)+'</option>').join("")
   ||'<option value="sensenova-6.8-flash-lite">sensenova-6.8-flash-lite</option>';
  const cfg=JSON.parse(localStorage.getItem(AI_KEY)||"null");
- if(cfg){aurl.value=cfg.url||"";amodel.value=cfg.model||"";amax.value=cfg.max||32768;akey.value=cfg.key?"••••••":"";}
+ if(cfg){aurl.value=cfg.url||"";amodel.value=cfg.model||"";amax.value=cfg.max||32768;akey.value=cfg.key?"••••••":"";arel.value=cfg.relay||"";}
  if(!aurl.value&&api.baseUrl)aurl.value=api.baseUrl;
  renderStor();
 }
@@ -714,16 +718,21 @@ function doPaste(kind){const txt=document.getElementById("psta").value;
 /* ===== AI ===== */
 function getCfg(){return JSON.parse(localStorage.getItem(AI_KEY)||"null");}
 function saveAI(){const c={url:(aurl.value||"").trim().replace(/\/+$/,""),key:(akey.value||"").trim(),
- model:amodel.value,max:+amax.value||32768};
- if(!c.key){toast("请填 API Key");return;}
+ relay:(arel.value||"").trim(),model:amodel.value,max:+amax.value||32768};
+ if(!c.key&&!c.relay){toast("请填 API Key；或填转发共享密钥(密钥托管模式可留空 Key)");return;}
  localStorage.setItem(AI_KEY,JSON.stringify(c));toast("已保存到本机");}
 function clearKey(){const c=getCfg();if(c){c.key="";localStorage.setItem(AI_KEY,JSON.stringify(c));}
  akey.value="";toast("Key 已清除");}
 async function callAPI(c,messages,onDelta,maxTok){
  const url=(c.url||"")+"/chat/completions";let resp;
- try{resp=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+c.key},
+ try{const hd={"Content-Type":"application/json"};
+  if(c.key)hd["Authorization"]="Bearer "+c.key;
+  if(c.relay)hd["X-Relay-Secret"]=c.relay;
+  resp=await fetch(url,{method:"POST",headers:hd,
   body:JSON.stringify({model:c.model,messages,stream:!!onDelta,max_tokens:maxTok||c.max||32768})});}
- catch(e){throw new Error("CORS/网络失败："+e.message+"。浏览器直连需接口通过跨域预检，可将 Base URL 指向你自建的转发服务。");}
+ catch(e){const isCors=/Failed to fetch|NetworkError|Cross-Origin|CORS|load failed/i.test(e.message);
+  if(isCors)throw new Error("CORS/网络失败：浏览器直连被跨域预检拦截（日日新对 OPTIONS 返回 404）。两种方案：①改用「复制提示词→去 WorkBuddy 执行→贴回本 App」模式（零风险，手机端可用）；②自建 CORS 转发（见「设置→跨域帮助」）。");
+  throw new Error("网络失败："+e.message);}
  if(!resp.ok){let m=""+resp.status;try{const j=await resp.json();if(j.error&&j.error.message)m+=" "+j.error.message;}catch(e){}
   if(resp.status===401)throw new Error("401 Key 无效或已过期");
   if(resp.status===429)throw new Error("429 触发限流，请稍后再试");
@@ -739,7 +748,69 @@ async function testAI(){const c=getCfg();if(!c||!c.key){document.getElementById(
  document.getElementById("aitest").textContent="测试中…";
  try{const r=await callAPI(c,[{role:"user",content:"回复两个字：正常"}],null,200);
   document.getElementById("aitest").textContent="✅ 连接成功："+String(r).slice(0,40);}
- catch(e){document.getElementById("aitest").textContent="❌ "+e.message;}}
+ catch(e){const el=document.getElementById("aitest");
+  if(/CORS|跨域/.test(e.message))el.innerHTML="❌ "+esc(e.message)+' <button class="btn p" onclick="showCorsHelp()">查看解决方案</button>';
+  else el.textContent="❌ "+e.message;}}
+function showCorsHelp(){
+ const code=`// Cloudflare Workers CORS 转发（加固版）
+// 用法 A（默认）：App 在 Authorization 带自己的 Key，Worker 原样转发。
+// 用法 B（更安全）：设环境变量 SEN_NOVA_KEY，App 不发送 Key，Worker 自动补 Authorization，密钥永不离开服务端。
+// 安全：设环境变量 RELAY_SECRET，App 在请求头带 X-Relay-Secret 才放行，防止公网 URL 被当开放代理刷额度。
+
+const UPSTREAM = "https://token.sensenova.cn";
+
+export default {
+  async fetch(request, env) {
+    const secret = env.RELAY_SECRET;
+    if (secret && request.headers.get("X-Relay-Secret") !== secret) {
+      return new Response("forbidden", { status: 403 });
+    }
+    const url = new URL(request.url);
+    const target = UPSTREAM + url.pathname + url.search;
+
+    const headers = new Headers(request.headers);
+    headers.delete("origin");
+    headers.delete("referer");
+    if (env.SEN_NOVA_KEY) headers.set("Authorization", "Bearer " + env.SEN_NOVA_KEY);
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders() });
+    }
+    try {
+      const r = await fetch(target, { method: request.method, headers, body: request.body, redirect: "follow" });
+      const h = new Headers(r.headers);
+      for (const [k, v] of corsHeaders()) h.set(k, v);
+      return new Response(r.body, { status: r.status, statusText: r.statusText, headers: h });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: e.message }), {
+        status: 502,
+        headers: Object.assign(Object.fromEntries(corsHeaders()), { "Content-Type": "application/json" })
+      });
+    }
+  }
+};
+
+function corsHeaders() {
+  return new Headers({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-Relay-Secret",
+    "Access-Control-Max-Age": "86400"
+  });
+}`;
+ showSheet("🌐 跨域预检被拦截 · 解决方案",
+  '<div class="sm">日日新接口对 OPTIONS 预检返回 404，浏览器会拦截带 Authorization 的请求。你有两个选择：</div>'
+  +'<div class="blk"><h3>① 零风险：复制粘贴模式（当前兜底）</h3>'
+  +'<div class="sm">不配置任何转发。在每个 Tab 点「复制提示词」→ 去 WorkBuddy（电脑端）执行 → 把结果「粘贴」回本 App。密钥只在本机/WorkBuddy，绝不外泄。缺点：需手动往返。</div></div>'
+  +'<div class="blk"><h3>② 最优：自建转发 + 模式 B（推荐）</h3>'
+  +'<div class="sm">把 Base URL 改为你自己的转发地址，App 内直接调用 AI、自动存稿。唯一风险是转发公网 URL 泄露被刷额度，已用共享密钥（RELAY_SECRET）堵死；还可用「密钥托管」让 Key 永不进浏览器。下方为加固脚本。</div>'
+  +'<details style="margin-top:8px"><summary>展开 Cloudflare Workers 脚本</summary>'
+  +'<pre style="white-space:pre-wrap;font-size:12px;background:#f4f4f5;padding:8px;border-radius:6px;max-height:38vh;overflow:auto">'+esc(code)+'</pre>'
+  +'<div class="acts" style="margin-top:6px"><button class="btn p" onclick="copyText(\'corsCode\')">复制脚本</button></div>'
+  +'<span id="corsCode" style="display:none">'+esc(code)+'</span></div></div>'
+  +'<div class="sm" style="margin-top:6px">⚠️ 切勿使用任何「公共 CORS 代理」，密钥会经第三方。</div>'
+  +'<div class="acts"><button class="btn" onclick="closeSheet()">关闭</button></div>');
+}
 const GENTITLE={assess:"脑洞评估",outline:"方案发散",body:"正文生成",diag:"诊断优化"};
 async function gen(m){const p=cp();const c=getCfg();
  if(!c||!c.key){toast("请先在「设置」里配置并保存 API Key");switchTab("set");return;}
@@ -758,6 +829,7 @@ async function gen(m){const p=cp();const c=getCfg();
    {role:"user",content:prompt}],t=>{if(window.genStop)throw new Error("STOP");window.genTxt=t;out.textContent=t;out.scrollTop=out.scrollHeight;},c.max||32768);
   document.getElementById("gsv").style.display="inline-block";toast("生成完成");}
  catch(e){if(e.message==="STOP"){toast("已停止");document.getElementById("gsv").style.display="inline-block";}
+  else if(/CORS|跨域/.test(e.message)){out.innerHTML="❌ "+esc(e.message)+'<div class="acts"><button class="btn p" onclick="showCorsHelp()">查看解决方案</button></div>';}
   else out.textContent="❌ "+e.message;}}
 function saveGen(m){const txt=window.genTxt||"";if(!txt.trim()){toast("没有内容");return;}
  const msg=applyResult(m,txt);closeSheet();renderAll();toast(msg);}
