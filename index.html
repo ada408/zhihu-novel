@@ -208,8 +208,8 @@ function switchProj(){switchTab("brain");toast("在「脑洞」里新建或选�
 /* ===== 项目 ===== */
 function newProject(){
  const p={id:uid(),title:"未命名小说",genre:"都市",target:20000,ending:"HE",status:"草稿",
-  createdAt:now(),updatedAt:now(),idea:{raw:"",assess:null,final:""},outlines:[],selOutline:null,
-  mss:[],diags:[],versions:[],constraints:[]};
+  createdAt:now(),updatedAt:now(),idea:{raw:"",qa:"",assess:null,final:""},outlines:[],selOutline:null,
+  mss:[],diags:[],versions:[],constraints:[],selfCheck:null};
  projects.unshift(p);curId=p.id;save(p);setMeta("lastId",p.id);
  renderProjects();switchTab("brain");toast("已创建，先填写脑洞");}
 function openProj(id){curId=id;setMeta("lastId",id);renderAll();switchTab("brain");updMeta();}
@@ -443,6 +443,11 @@ function renderBrain(){
  const box=document.getElementById("brainBody");
  if(!cp()){box.innerHTML='<div class="empty">请先在上方新建或选择一部小说</div>';return;}
  const p=cp();
+ /* 兼容旧项目：补齐新增字段，避免 undefined 报错 */
+ if(!p.idea)p.idea={raw:"",qa:"",assess:null,final:""};
+ if(p.idea.qa===undefined)p.idea.qa="";
+ if(!Array.isArray(p.outlines))p.outlines=[];
+ if(!Array.isArray(p.mss))p.mss=[];
  let h='<div class="blk"><h3>📝 项目基本信息（修改后点保存）</h3>'
   +'<label>题材</label>'+genreChips()
   +'<label>期望结局</label>'+endingChips()
@@ -510,6 +515,7 @@ function renderBody(){
  if(!cp()){box.innerHTML='<div class="empty">请先在上方新建或选择一部小说</div>';return;}
  const p=cp();
  if(!p.selOutline){box.innerHTML='<div class="empty">请先在「脑洞 → ③ 生成多套故事方案」里选定 A/B/C 其中一套</div>';return;}
+ if(!Array.isArray(p.mss))p.mss=[];
  const sel=p.outlines.find(x=>x.code===p.selOutline)||{};
  let h='<div class="blk"><h3>④ 正文生成 <span class="sub">· 基于已选方案：'+esc(sel.code||"?")+' '+esc(sel.name||"")+'</span></h3>'
   +'<label>文笔风格</label><select id="f_style">'
