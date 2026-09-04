@@ -1,7 +1,7 @@
 /* 小说创作工作台 · Service Worker
    策略：data.json 网络优先（素材更新能生效）+ 失败回落缓存；应用外壳缓存优先。
    注意：稿件正文存在 IndexedDB，不经过 SW，无需在此处理。 */
-const CACHE = "novel-studio-v1";
+const CACHE = "novel-studio-v2";
 const SHELL = ["./", "./index.html", "./sw.js"];
 
 self.addEventListener("install", e => {
