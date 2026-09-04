@@ -745,7 +745,7 @@ async function callAPI(c,messages,onDelta,maxTok){
    if(p==="[DONE]")return;try{const j=JSON.parse(p);const d=j.choices&&j.choices[0]&&j.choices[0].delta;
     if(d&&d.content){out+=d.content;onDelta(out);}}catch(e){}});}
  return out;}
-async function testAI(){const c=getCfg();if(!c||!c.key){document.getElementById("aitest").textContent="请先填 Key 并保存";return;}
+async function testAI(){const c=getCfg();if(!c||(!c.key&&!c.relay)){document.getElementById("aitest").textContent="请先填 API Key 或 Relay Secret 并保存";return;}
  document.getElementById("aitest").textContent="测试中…";
  try{const r=await callAPI(c,[{role:"user",content:"回复两个字：正常"}],null,200);
   document.getElementById("aitest").textContent="✅ 连接成功："+String(r).slice(0,40);}
